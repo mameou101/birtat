@@ -1,7 +1,9 @@
 export default async function handler(req, res) {
+  // Only allow POST requests from the order page
   if (req.method !== "POST") {
     return res.status(405).json({
-      error: "Method not allowed"
+      error: "Method not allowed",
+      message: "This endpoint must be triggered by an order submission."
     });
   }
 
@@ -32,13 +34,20 @@ export default async function handler(req, res) {
       notes
     } = req.body || {};
 
+    // Basic validation
+    if (!orderNumber || !customerName || !phone) {
+      return res.status(400).json({
+        error: "Missing required order information"
+      });
+    }
+
     const message = `
 🖨️ NEW BIRTAT ORDER
 
-📋 Order: ${orderNumber || "-"}
+📋 Order: ${orderNumber}
 
-👤 Customer: ${customerName || "-"}
-📱 Phone: ${phone || "-"}
+👤 Customer: ${customerName}
+📱 Phone: ${phone}
 
 🖨️ Service: ${service || "-"}
 📄 File: ${fileName || "No file"}
@@ -80,8 +89,7 @@ ${fileUrl ? `📎 File:\n${fileUrl}` : ""}
       console.error("Telegram API error:", telegramData);
 
       return res.status(500).json({
-        error: "Telegram notification failed",
-        telegram: telegramData
+        error: "Telegram notification failed"
       });
     }
 
@@ -94,8 +102,7 @@ ${fileUrl ? `📎 File:\n${fileUrl}` : ""}
     console.error("Server error:", error);
 
     return res.status(500).json({
-      error: "Server error",
-      details: error.message
+      error: "Server error"
     });
   }
 }
