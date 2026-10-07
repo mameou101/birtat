@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  if (req.method !== "GET") {
+  if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed"
     });
@@ -15,6 +15,51 @@ export default async function handler(req, res) {
       });
     }
 
+    const {
+      orderNumber,
+      customerName,
+      phone,
+      service,
+      fileName,
+      fileUrl,
+      pages,
+      copies,
+      colorMode,
+      price,
+      delivery,
+      blockNumber,
+      houseNumber,
+      notes
+    } = req.body || {};
+
+    const message = `
+🖨️ NEW BIRTAT ORDER
+
+📋 Order: ${orderNumber || "-"}
+
+👤 Customer: ${customerName || "-"}
+📱 Phone: ${phone || "-"}
+
+🖨️ Service: ${service || "-"}
+📄 File: ${fileName || "No file"}
+
+📑 Pages: ${pages || "-"}
+📚 Copies: ${copies || "-"}
+🎨 Color: ${colorMode || "-"}
+
+💰 Price: ${price || "-"}
+
+🚚 Receive: ${delivery || "-"}
+
+🏠 Block: ${blockNumber || "-"}
+🏠 House: ${houseNumber || "-"}
+
+📝 Notes:
+${notes || "No additional notes"}
+
+${fileUrl ? `📎 File:\n${fileUrl}` : ""}
+`;
+
     const telegramResponse = await fetch(
       `https://api.telegram.org/bot${botToken}/sendMessage`,
       {
@@ -24,7 +69,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           chat_id: chatId,
-          text: "🔥 TEST MESSAGE\n\nBirtat Telegram connection is working!"
+          text: message
         })
       }
     );
@@ -32,18 +77,22 @@ export default async function handler(req, res) {
     const telegramData = await telegramResponse.json();
 
     if (!telegramResponse.ok || !telegramData.ok) {
+      console.error("Telegram API error:", telegramData);
+
       return res.status(500).json({
-        error: "Telegram failed",
+        error: "Telegram notification failed",
         telegram: telegramData
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Telegram test message sent!"
+      message: "Telegram notification sent"
     });
 
   } catch (error) {
+    console.error("Server error:", error);
+
     return res.status(500).json({
       error: "Server error",
       details: error.message
