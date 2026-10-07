@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Start an Order — Birtat</title>
+  <meta
+    name="description"
+    content="Place an order with Birtat."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --surface: #ffffff;
+      --text: #111111;
+      --muted: #707070;
+      --border: #e4e4df;
+      --soft: #efefeb;
+      --success: #16803c;
+      --danger: #c62828;
+      --radius: 16px;
+      --max-width: 1050px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: auto;
+    }
+
+    nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+    }
+
+    .page-header {
+      padding: 55px 0 40px;
+      max-width: 720px;
+    }
+
+    .page-header h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    .page-header p {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 580px;
+    }
+
+    .order-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 20px;
+      align-items: start;
+      padding-bottom: 100px;
+    }
+
+    .form-card,
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .form-card {
+      padding: 30px;
+    }
+
+    .summary-card {
+      padding: 24px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .form-section + .form-section {
+      margin-top: 35px;
+      padding-top: 35px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      margin-bottom: 18px;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+
+    .service-option {
+      position: relative;
+    }
+
+    .service-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .service-option label {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 88px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .service-option label:hover {
+      border-color: #aaa;
+    }
+
+    .service-option input:checked + label {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    .service-option strong {
+      font-size: 0.9rem;
+    }
+
+    .service-option span {
+      margin-top: 3px;
+      font-size: 0.74rem;
+      opacity: 0.65;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label.field-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 10px;
+      padding: 12px 13px;
+      outline: none;
+      color: var(--text);
+      transition: 0.15s ease;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #777;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .file-drop {
+      border: 1px dashed #c9c9c3;
+      border-radius: 13px;
+      padding: 28px 20px;
+      text-align: center;
+      background: #fafaf8;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .file-drop:hover {
+      background: var(--soft);
+      border-color: #999;
+    }
+
+    .file-drop strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .file-drop span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .file-name {
+      margin-top: 10px;
+      color: var(--success);
+      font-size: 0.8rem;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .page-count {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .option-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .option-box {
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px;
+    }
+
+    .option-box label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .check-row input {
+      margin-top: 4px;
+      accent-color: black;
+    }
+
+    /* DELIVERY */
+
+    .delivery-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .delivery-option {
+      position: relative;
+    }
+
+    .delivery-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .delivery-option label {
+      display: block;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .delivery-option label:hover {
+      border-color: #aaa;
+    }
+
+    .delivery-option input:checked + label {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    .delivery-option strong {
+      display: block;
+      font-size: 0.88rem;
+    }
+
+    .delivery-option span {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.74rem;
+      opacity: 0.65;
+    }
+
+    .delivery-fields {
+      display: none;
+      margin-top: 15px;
+    }
+
+    .delivery-fields.active {
+      display: grid;
+    }
+
+    .delivery-note {
+      grid-column: 1 / -1;
+      margin-top: 2px;
+      padding: 12px 14px;
+      background: #f1f1ed;
+      border-radius: 10px;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .notification-box {
+      margin-top: 15px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fafaf8;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .notification-description {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .summary-title {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .summary-service {
+      margin-top: 22px;
+      padding: 14px;
+      background: var(--soft);
+      border-radius: 11px;
+    }
+
+    .summary-service small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
+    .summary-service strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 1rem;
+    }
+
+    .summary-lines {
+      margin-top: 20px;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 9px 0;
+      font-size: 0.82rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-line span:first-child {
+      color: var(--muted);
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .summary-total span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .summary-total strong {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.45rem;
+    }
+
+    .estimate-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      line-height: 1.5;
+    }
+
+    .submit-button {
+      width: 100%;
+      border: none;
+      background: var(--text);
+      color: white;
+      padding: 15px;
+      border-radius: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 22px;
+      transition: 0.2s ease;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .submit-button:disabled {
+      cursor: wait;
+      opacity: 0.6;
+      transform: none;
+    }
+
+    .privacy-note {
+      margin-top: 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
+    .service-fields {
+      display: none;
+    }
+
+    .service-fields.active {
+      display: block;
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .success-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8f5ed;
+      color: var(--success);
+      border-radius: 50%;
+      font-size: 1.5rem;
+    }
+
+    .success-message h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .success-message p {
+      margin: 12px auto 0;
+      color: var(--muted);
+      max-width: 470px;
+    }
+
+    .order-number-display {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 15px;
+      background: var(--soft);
+      border-radius: 10px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 600;
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff0f0;
+      color: var(--danger);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 800px) {
+      .order-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-card {
+        position: static;
+        order: -1;
+      }
+
+      .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        width: min(var(--max-width), calc(100% - 24px));
+      }
+
+      nav {
+        height: 66px;
+      }
+
+      .page-header {
+        padding: 40px 0 28px;
+      }
+
+      .page-header h1 {
+        font-size: 3rem;
+      }
+
+      .form-card {
+        padding: 20px;
+      }
+
+      .field-grid,
+      .option-row,
+      .delivery-options {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .delivery-note {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="index.html" class="logo">BIRTAT</a>
+      <a href="index.html" class="back-link">← Back to home</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Start an order.</h1>
+
+      <p>
+        Tell us what you need. Upload your file if necessary,
+        choose your options, and we'll prepare everything for you.
+      </p>
+    </div>
+
+    <div class="order-layout">
+
+      <!-- FORM -->
+
+      <div class="form-card">
+
+        <form id="orderForm">
+
+          <!-- SERVICE -->
+
+          <div class="form-section">
+
+            <div class="section-label">
+              What do you need?
+            </div>
+
+            <div class="service-grid">
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-print"
+                  value="Print"
+                  checked
+                >
+
+                <label for="service-print">
+                  <strong>Print</strong>
+                  <span>Upload a file</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-copy"
+                  value="Copy"
+                >
+
+                <label for="service-copy">
+                  <strong>Copy</strong>
+                  <span>Bring original</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-scan"
+                  value="Scan"
+                >
+
+                <label for="service-scan">
+                  <strong>Scan</strong>
+                  <span>Paper → PDF</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-typing"
+                  value="Typing"
+                >
+
+                <label for="service-typing">
+                  <strong>Typing</strong>
+                  <span>Documents</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-cv"
+                  value="CV & Documents"
+                >
+
+                <label for="service-cv">
+                  <strong>CV & Docs</strong>
+                  <span>Create / format</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-research"
+                  value="Research"
+                >
+
+                <label for="service-research">
+                  <strong>Research</strong>
+                  <span>Research help</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-design"
+                  value="Design"
+                >
+
+                <label for="service-design">
+                  <strong>Design</strong>
+                  <span>Flyers & more</span>
+                </label>
+              </div>
+
+              <div class="service-option">
+                <input
+                  type="radio"
+                  name="service"
+                  id="service-online"
+                  value="Online Help"
+                >
+
+                <label for="service-online">
+                  <strong>Online Help</strong>
+                  <span>Digital assistance</span>
+                </label>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- PRINT -->
+
+          <div
+            class="form-section service-fields active"
+            id="printFields"
+            data-service="Print"
+          >
+
+            <div class="section-label">
+              Printing details
+            </div>
+
+            <div class="field">
+
+              <label class="field-label">
+                Your file
+              </label>
+
+              <label
+                class="file-drop"
+                for="fileInput"
+              >
+
+                <strong>
+                  Click to upload your file
+                </strong>
+
+                <span>
+                  PDF, Word, JPG, PNG and other common formats
+                </span>
+
+                <div
+                  class="file-name"
+                  id="fileName"
+                >
+                  No file selected
+                </div>
+
+                <div
+                  class="page-count"
+                  id="pageCount"
+                >
+                  Upload a PDF to automatically count its pages
+                </div>
+
+              </label>
+
+              <input
+                type="file"
+                id="fileInput"
+                hidden
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.ppt,.pptx,.txt"
+              >
+
+            </div>
+
+            <div
+              class="option-row"
+              style="margin-top: 15px;"
+            >
+
+              <div class="option-box">
+
+                <label for="paperSize">
+                  Paper size
+                </label>
+
+                <select id="paperSize">
+
+                  <option value="A4">
+                    A4
+                  </option>
+
+                  <option value="A3">
+                    A3
+                  </option>
+
+                  <option value="A5">
+                    A5
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="option-box">
+
+                <label for="colorMode">
+                  Print type
+                </label>
+
+                <select id="colorMode">
+
+                  <option value="bw">
+                    Black & White
+                  </option>
+
+                  <option value="color">
+                    Color
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+            <div
+              class="field"
+              style="margin-top: 15px;"
+            >
+
+              <label
+                class="field-label"
+                for="copies"
+              >
+                Number of copies
+              </label>
+
+              <input
+                type="number"
+                id="copies"
+                min="1"
+                value="1"
+              >
+
+            </div>
+
+          </div>
+
+          <!-- COPY -->
+
+          <div
+            class="form-section service-fields"
+            id="copyFields"
+            data-service="Copy"
+          >
+
+            <div class="section-label">
+              Copy details
+            </div>
+
+            <div class="option-row">
+
+              <div class="option-box">
+
+                <label for="copyPaperSize">
+                  Paper size
+                </label>
+
+                <select id="copyPaperSize">
+
+                  <option value="A4">
+                    A4
+                  </option>
+
+                  <option value="A3">
+                    A3
+                  </option>
+
+                  <option value="A5">
+                    A5
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="option-box">
+
+                <label for="copyColor">
+                  Copy type
+                </label>
+
+                <select id="copyColor">
+
+                  <option value="bw">
+                    Black & White
+                  </option>
+
+                  <option value="color">
+                    Color
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+            <div
+              class="field"
+              style="margin-top: 15px;"
+            >
+
+              <label
+                class="field-label"
+                for="copyQuantity"
+              >
+                Number of copies
+              </label>
+
+              <input
+                type="number"
+                id="copyQuantity"
+                min="1"
+                value="1"
+              >
+
+            </div>
+
+            <div
+              style="
+                margin-top:15px;
+                padding:14px;
+                background:#f1f1ed;
+                border-radius:10px;
+                font-size:.8rem;
+                color:#666;
+              "
+            >
+              Bring the original document to the Birtat
+              location. We'll handle the copying for you.
+            </div>
+
+          </div>
+
+          <!-- OTHER SERVICES -->
+
+          <div
+            class="form-section service-fields"
+            id="generalFields"
+            data-service="General"
+          >
+
+            <div class="section-label">
+              Tell us what you need
+            </div>
+
+            <div class="field">
+
+              <label
+                class="field-label"
+                for="requestDetails"
+              >
+                Details
+              </label>
+
+              <textarea
+                id="requestDetails"
+                placeholder="Describe what you need..."
+              ></textarea>
+
+            </div>
+
+            <div
+              class="field"
+              style="margin-top:15px;"
+            >
+
+              <label class="field-label">
+                Optional file
+              </label>
+
+              <label
+                class="file-drop"
+                for="generalFileInput"
+              >
+
+                <strong>
+                  Upload a file
+                </strong>
+
+                <span>
+                  Optional
+                </span>
+
+                <div
+                  class="file-name"
+                  id="generalFileName"
+                >
+                  No file selected
+                </div>
+
+              </label>
+
+              <input
+                type="file"
+                id="generalFileInput"
+                hidden
+              >
+
+            </div>
+
+          </div>
+
+          <!-- CUSTOMER -->
+
+          <div class="form-section">
+
+            <div class="section-label">
+              Your information
+            </div>
+
+            <div class="field-grid">
+
+              <div class="field">
+
+                <label
+                  class="field-label"
+                  for="customerName"
+                >
+                  Name
+                </label>
+
+                <input
+                  type="text"
+                  id="customerName"
+                  placeholder="Your name"
+                  required
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label
+                  class="field-label"
+                  for="customerPhone"
+                >
+                  Phone / Telegram
+                </label>
+
+                <input
+                  type="tel"
+                  id="customerPhone"
+                  placeholder="09..."
+                  required
+                >
+
+              </div>
+
+              <div class="field full">
+
+                <label
+                  class="field-label"
+                  for="notes"
+                >
+                  Additional notes
+                </label>
+
+                <textarea
+                  id="notes"
+                  placeholder="Anything we should know?"
+                ></textarea>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- DELIVERY -->
+
+          <div class="form-section">
+
+            <div class="section-label">
+              How would you like to receive it?
+            </div>
+
+            <div class="delivery-options">
+
+              <div class="delivery-option">
+
+                <input
+                  type="radio"
+                  name="delivery"
+                  id="delivery-pickup"
+                  value="pickup"
+                  checked
+                >
+
+                <label for="delivery-pickup">
+
+                  <strong>
+                    Pick up
+                  </strong>
+
+                  <span>
+                    Collect your order from Birtat
+                  </span>
+
+                </label>
+
+              </div>
+
+              <div class="delivery-option">
+
+                <input
+                  type="radio"
+                  name="delivery"
+                  id="delivery-delivery"
+                  value="delivery"
+                >
+
+                <label for="delivery-delivery">
+
+                  <strong>
+                    Deliver to me
+                  </strong>
+
+                  <span>
+                    We'll deliver it to your location
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+            <div
+              class="field-grid delivery-fields"
+              id="deliveryFields"
+            >
+
+              <div class="field">
+
+                <label
+                  class="field-label"
+                  for="blockNumber"
+                >
+                  Block number
+                </label>
+
+                <input
+                  type="text"
+                  id="blockNumber"
+                  placeholder="e.g. Block 12"
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label
+                  class="field-label"
+                  for="houseNumber"
+                >
+                  House number
+                </label>
+
+                <input
+                  type="text"
+                  id="houseNumber"
+                  placeholder="e.g. House 45"
+                >
+
+              </div>
+
+              <div class="delivery-note">
+                Delivery is currently available within the condominium.
+                Please provide your block and house number so we can
+                locate you.
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- NOTIFICATIONS -->
+
+          <div class="form-section">
+
+            <div class="section-label">
+              Order notifications
+            </div>
+
+            <div class="notification-box">
+
+              <div class="notification-title">
+                🔔 Get notified when your order is ready
+              </div>
+
+              <div class="notification-description">
+                We can send a notification to this device when
+                your order is finished and ready for pickup.
+              </div>
+
+              <label class="check-row">
+
+                <input
+                  type="checkbox"
+                  id="notifyCustomer"
+                >
+
+                <span>
+                  Yes, notify me when my order is ready.
+                </span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+          <!-- CONFIRM -->
+
+          <div class="form-section">
+
+            <label class="check-row">
+
+              <input
+                type="checkbox"
+                id="confirm"
+                required
+              >
+
+              <span>
+                I understand that the displayed price is an estimate
+                and the final price may change depending on the
+                actual document or requested service.
+              </span>
+
+            </label>
+
+            <button
+              type="submit"
+              class="submit-button"
+            >
+              Send Order →
+            </button>
+
+            <div
+              class="error-message"
+              id="errorMessage"
+            >
+              Something went wrong while sending your order.
+              Please try again.
+            </div>
+
+            <div class="privacy-note">
+              Your information is only used to process your order.
+            </div>
+
+          </div>
+
+        </form>
+
+        <!-- SUCCESS -->
+
+        <div
+          class="success-message"
+          id="successMessage"
+        >
+
+          <div class="success-icon">
+            ✓
+          </div>
+
+          <h2>
+            Order received.
+          </h2>
+
+          <p>
+            We've received your request. We'll prepare your order
+            and let you know when it's ready.
+          </p>
+
+          <div
+            class="order-number-display"
+            id="orderNumberDisplay"
+          >
+            Order #—
+          </div>
+
+          <button
+            class="submit-button"
+            onclick="location.href='index.html'"
+          >
+            Back to Birtat
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- SUMMARY -->
+
+      <aside class="summary-card">
+
+        <div class="summary-title">
+          Order summary
+        </div>
+
+        <div class="summary-service">
+
+          <small>
+            SERVICE
+          </small>
+
+          <strong id="summaryService">
+            Print
+          </strong>
+
+        </div>
+
+        <div class="summary-lines">
+
+          <div class="summary-line">
+            <span>Paper</span>
+            <strong id="summaryPaper">A4</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Type</span>
+            <strong id="summaryColor">B&W</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Pages</span>
+            <strong id="summaryPages">—</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Copies</span>
+            <strong id="summaryCopies">1</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Receive</span>
+            <strong id="summaryDelivery">Pick up</strong>
+          </div>
+
+        </div>
+
+        <div class="summary-total">
+
+          <span>
+            Estimated price
+          </span>
+
+          <strong id="summaryPrice">
+            —
+          </strong>
+
+        </div>
+
+        <p class="estimate-note">
+          PDF page count is detected automatically.
+          Final pricing may depend on the actual document
+          and requested service.
+        </p>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</main>
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<!-- PDF.JS -->
+
+<script type="module">
+
+  /*
+    ==========================================
+    BIRTAT — ORDER LOGIC
+    ==========================================
+  */
+
+  const prices = {
+    A4: {
+      bw: 2,
+      color: 5
+    },
+
+    A3: {
+      bw: 4,
+      color: 10
+    },
+
+    A5: {
+      bw: 1,
+      color: 3
+    }
+  };
+
+
+  /*
+    ==========================================
+    PDF.JS
+    ==========================================
+  */
+
+  const pdfjsLib = await import(
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
+  );
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+
+
+  /*
+    ==========================================
+    ELEMENTS
+    ==========================================
+  */
+
+  const serviceInputs =
+    document.querySelectorAll(
+      'input[name="service"]'
+    );
+
+  const printFields =
+    document.getElementById("printFields");
+
+  const copyFields =
+    document.getElementById("copyFields");
+
+  const generalFields =
+    document.getElementById("generalFields");
+
+  const summaryService =
+    document.getElementById("summaryService");
+
+  const summaryPaper =
+    document.getElementById("summaryPaper");
+
+  const summaryColor =
+    document.getElementById("summaryColor");
+
+  const summaryPages =
+    document.getElementById("summaryPages");
+
+  const summaryCopies =
+    document.getElementById("summaryCopies");
+
+  const summaryDelivery =
+    document.getElementById("summaryDelivery");
+
+  const summaryPrice =
+    document.getElementById("summaryPrice");
+
+  const orderForm =
+    document.getElementById("orderForm");
+
+  const successMessage =
+    document.getElementById("successMessage");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+  const notifyCustomer =
+    document.getElementById("notifyCustomer");
+
+  const orderNumberDisplay =
+    document.getElementById("orderNumberDisplay");
+
+  const fileInput =
+    document.getElementById("fileInput");
+
+  const fileName =
+    document.getElementById("fileName");
+
+  const pageCountDisplay =
+    document.getElementById("pageCount");
+
+  const generalFileInput =
+    document.getElementById("generalFileInput");
+
+  const generalFileName =
+    document.getElementById("generalFileName");
+
+  const deliveryInputs =
+    document.querySelectorAll(
+      'input[name="delivery"]'
+    );
+
+  const deliveryFields =
+    document.getElementById("deliveryFields");
+
+  const blockNumberInput =
+    document.getElementById("blockNumber");
+
+  const houseNumberInput =
+    document.getElementById("houseNumber");
+
+  let detectedPages = null;
+
+
+  /*
+    ==========================================
+    NOTIFICATION PERMISSION
+    ==========================================
+  */
+
+  notifyCustomer.addEventListener(
+    "change",
+    async function () {
+
+      if (!this.checked) {
+        return;
+      }
+
+      if (!("Notification" in window)) {
+
+        alert(
+          "Your browser does not support notifications."
+        );
+
+        this.checked = false;
+
+        return;
+      }
+
+      if (
+        Notification.permission === "granted"
+      ) {
+
+        console.log(
+          "Notification permission already granted."
+        );
+
+        return;
+      }
+
+      if (
+        Notification.permission === "denied"
+      ) {
+
+        alert(
+          "Notifications are blocked in your browser. Please allow notifications in your browser settings."
+        );
+
+        this.checked = false;
+
+        return;
+      }
+
+      try {
+
+        const permission =
+          await Notification.requestPermission();
+
+        if (
+          permission === "granted"
+        ) {
+
+          console.log(
+            "Notification permission granted."
+          );
+
+        } else {
+
+          this.checked = false;
+
+          console.log(
+            "Notification permission was not granted."
+          );
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Notification permission error:",
+          error
+        );
+
+        this.checked = false;
+      }
+
+    }
+  );
+
+
+  /*
+    ==========================================
+    GET SELECTED SERVICE
+    ==========================================
+  */
+
+  function getSelectedService() {
+
+    const selected =
+      document.querySelector(
+        'input[name="service"]:checked'
+      );
+
+    return selected
+      ? selected.value
+      : "Print";
+  }
+
+
+  /*
+    ==========================================
+    GET DELIVERY CHOICE
+    ==========================================
+  */
+
+  function getDeliveryChoice() {
+
+    const selected =
+      document.querySelector(
+        'input[name="delivery"]:checked'
+      );
+
+    return selected
+      ? selected.value
+      : "pickup";
+  }
+
+
+  /*
+    ==========================================
+    UPDATE DELIVERY FIELDS
+    ==========================================
+  */
+
+  function updateDeliveryFields() {
+
+    const deliveryChoice =
+      getDeliveryChoice();
+
+    const isDelivery =
+      deliveryChoice === "delivery";
+
+
+    if (isDelivery) {
+
+      deliveryFields.classList.add("active");
+
+      blockNumberInput.required = true;
+      houseNumberInput.required = true;
+
+    } else {
+
+      deliveryFields.classList.remove("active");
+
+      blockNumberInput.required = false;
+      houseNumberInput.required = false;
+
+      blockNumberInput.value = "";
+      houseNumberInput.value = "";
+    }
+
+
+    summaryDelivery.textContent =
+      isDelivery
+        ? "Delivery"
+        : "Pick up";
+  }
+
+
+  /*
+    ==========================================
+    GET COPY COUNT
+    ==========================================
+  */
+
+  function getCopyCount() {
+
+    let copies =
+      parseInt(
+        document.getElementById("copies").value
+      );
+
+    if (!copies || copies < 1) {
+      copies = 1;
+    }
+
+    return copies;
+  }
+
+
+  /*
+    ==========================================
+    UPDATE SERVICE FIELDS
+    ==========================================
+  */
+
+  function updateServiceFields() {
+
+    const service =
+      getSelectedService();
+
+    printFields.classList.remove("active");
+    copyFields.classList.remove("active");
+    generalFields.classList.remove("active");
+
+    if (service === "Print") {
+
+      printFields.classList.add("active");
+
+    } else if (service === "Copy") {
+
+      copyFields.classList.add("active");
+
+    } else {
+
+      generalFields.classList.add("active");
+    }
+
+    summaryService.textContent =
+      service;
+
+    updateSummary();
+  }
+
+
+  /*
+    ==========================================
+    UPDATE SUMMARY
+    ==========================================
+  */
+
+  function updateSummary() {
+
+    const service =
+      getSelectedService();
+
+
+    /*
+      PRINT
+    */
+
+    if (service === "Print") {
+
+      const paper =
+        document.getElementById(
+          "paperSize"
+        ).value;
+
+      const color =
+        document.getElementById(
+          "colorMode"
+        ).value;
+
+      const copies =
+        getCopyCount();
+
+      summaryPaper.textContent =
+        paper;
+
+      summaryColor.textContent =
+        color === "bw"
+          ? "B&W"
+          : "Color";
+
+      summaryCopies.textContent =
+        copies;
+
+
+      if (!detectedPages) {
+
+        summaryPages.textContent =
+          "—";
+
+        summaryPrice.textContent =
+          "—";
+
+        return;
+      }
+
+
+      const pricePerPage =
+        prices[paper][color];
+
+      const total =
+        detectedPages *
+        pricePerPage *
+        copies;
+
+      summaryPages.textContent =
+        detectedPages;
+
+      summaryPrice.textContent =
+        total + " ETB";
+
+      return;
+    }
+
+
+    /*
+      COPY
+    */
+
+    if (service === "Copy") {
+
+      const paper =
+        document.getElementById(
+          "copyPaperSize"
+        ).value;
+
+      const color =
+        document.getElementById(
+          "copyColor"
+        ).value;
+
+      let copies =
+        parseInt(
+          document.getElementById(
+            "copyQuantity"
+          ).value
+        );
+
+      if (!copies || copies < 1) {
+        copies = 1;
+      }
+
+      const price =
+        prices[paper][color] *
+        copies;
+
+      summaryPaper.textContent =
+        paper;
+
+      summaryColor.textContent =
+        color === "bw"
+          ? "B&W"
+          : "Color";
+
+      summaryPages.textContent =
+        "—";
+
+      summaryCopies.textContent =
+        copies;
+
+      summaryPrice.textContent =
+        price + " ETB";
+
+      return;
+    }
+
+
+    /*
+      OTHER SERVICES
+    */
+
+    summaryPaper.textContent =
+      "—";
+
+    summaryColor.textContent =
+      "—";
+
+    summaryPages.textContent =
+      "—";
+
+    summaryCopies.textContent =
+      "—";
+
+    summaryPrice.textContent =
+      "Quote";
+  }
+
+
+  /*
+    ==========================================
+    COUNT PDF PAGES
+    ==========================================
+  */
+
+  async function countPdfPages(file) {
+
+    try {
+
+      detectedPages = null;
+
+      pageCountDisplay.textContent =
+        "Counting pages...";
+
+      summaryPages.textContent =
+        "…";
+
+      summaryPrice.textContent =
+        "Calculating…";
+
+
+      const arrayBuffer =
+        await file.arrayBuffer();
+
+      const pdf =
+        await pdfjsLib.getDocument({
+          data: arrayBuffer
+        }).promise;
+
+      detectedPages =
+        pdf.numPages;
+
+      pageCountDisplay.textContent =
+        `${detectedPages} ${
+          detectedPages === 1
+            ? "page"
+            : "pages"
+        } detected`;
+
+      updateSummary();
+
+    } catch (error) {
+
+      console.error(
+        "PDF page counting error:",
+        error
+      );
+
+      detectedPages =
+        null;
+
+      pageCountDisplay.textContent =
+        "Could not read this PDF.";
+
+      summaryPages.textContent =
+        "—";
+
+      summaryPrice.textContent =
+        "Quote";
+    }
+  }
+
+
+  /*
+    ==========================================
+    PRINT FILE SELECTION
+    ==========================================
+  */
+
+  fileInput.addEventListener(
+    "change",
+    async function () {
+
+      detectedPages = null;
+
+      if (!this.files.length) {
+
+        fileName.textContent =
+          "No file selected";
+
+        pageCountDisplay.textContent =
+          "Upload a PDF to automatically count its pages";
+
+        updateSummary();
+
+        return;
+      }
+
+      const file =
+        this.files[0];
+
+      fileName.textContent =
+        file.name;
+
+      const fileExtension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      /*
+        PDF
+      */
+
+      if (
+        fileExtension === "pdf" ||
+        file.type === "application/pdf"
+      ) {
+
+        await countPdfPages(file);
+
+        return;
+      }
+
+
+      /*
+        IMAGE
+      */
+
+      if (
+        fileExtension === "jpg" ||
+        fileExtension === "jpeg" ||
+        fileExtension === "png"
+      ) {
+
+        detectedPages =
+          1;
+
+        pageCountDisplay.textContent =
+          "1 page detected";
+
+        updateSummary();
+
+        return;
+      }
+
+
+      /*
+        OTHER FILE TYPES
+      */
+
+      detectedPages =
+        null;
+
+      pageCountDisplay.textContent =
+        "Page count unavailable for this file type";
+
+      summaryPages.textContent =
+        "—";
+
+      summaryPrice.textContent =
+        "Quote";
+    }
+  );
+
+
+  /*
+    ==========================================
+    GENERAL FILE SELECTION
+    ==========================================
+  */
+
+  generalFileInput.addEventListener(
+    "change",
+    function () {
+
+      if (this.files.length > 0) {
+
+        generalFileName.textContent =
+          this.files[0].name;
+
+      } else {
+
+        generalFileName.textContent =
+          "No file selected";
+      }
+
+    }
+  );
+
+
+  /*
+    ==========================================
+    SERVICE EVENTS
+    ==========================================
+  */
+
+  serviceInputs.forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        updateServiceFields
+      );
+
+    }
+  );
+
+
+  /*
+    ==========================================
+    DELIVERY EVENTS
+    ==========================================
+  */
+
+  deliveryInputs.forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        updateDeliveryFields
+      );
+
+    }
+  );
+
+
+  document
+    .getElementById("paperSize")
+    .addEventListener(
+      "change",
+      updateSummary
+    );
+
+
+  document
+    .getElementById("colorMode")
+    .addEventListener(
+      "change",
+      updateSummary
+    );
+
+
+  document
+    .getElementById("copies")
+    .addEventListener(
+      "input",
+      updateSummary
+    );
+
+
+  document
+    .getElementById("copyPaperSize")
+    .addEventListener(
+      "change",
+      updateSummary
+    );
+
+
+  document
+    .getElementById("copyColor")
+    .addEventListener(
+      "change",
+      updateSummary
+    );
+
+
+  document
+    .getElementById("copyQuantity")
+    .addEventListener(
+      "input",
+      updateSummary
+    );
+
+
+  /*
+    ==========================================
+    READ SERVICE FROM URL
+    ==========================================
+  */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const requestedService =
+    params.get("service");
+
+  if (requestedService) {
+
+    const matchingInput =
+      Array.from(
+        serviceInputs
+      ).find(
+        input =>
+          input.value
+            .toLowerCase()
+            .startsWith(
+              requestedService.toLowerCase()
+            )
+      );
+
+    if (matchingInput) {
+      matchingInput.checked = true;
+    }
+  }
+
+
+  /*
+    ==========================================
+    CREATE ORDER NUMBER
+    ==========================================
+  */
+
+  function createOrderNumber() {
+
+    const timestamp =
+      Date.now()
+        .toString()
+        .slice(-6);
+
+    return "KP-" + timestamp;
+  }
+
+
+  /*
+    ==========================================
+    UPLOAD FILE TO SUPABASE STORAGE
+    ==========================================
+  */
+
+  async function uploadOrderFile(
+    file,
+    orderNumber
+  ) {
+
+    if (!file) {
+      return null;
+    }
+
+
+    /*
+      Make the filename safe.
+    */
+
+    const safeFileName =
+      file.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+    /*
+      Each order gets its own folder.
+    */
+
+    const filePath =
+      `orders/${orderNumber}/${safeFileName}`;
+
+
+    console.log(
+      "Uploading file:",
+      filePath
+    );
+
+
+    const {
+      error: uploadError
+    } =
+      await supabaseClient
+        .storage
+        .from("order-files")
+        .upload(
+          filePath,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
+
+    if (uploadError) {
+
+      console.error(
+        "Storage upload error:",
+        uploadError
+      );
+
+      throw uploadError;
+    }
+
+
+    console.log(
+      "File uploaded successfully:",
+      filePath
+    );
+
+
+    return filePath;
+  }
+
+
+  /*
+    ==========================================
+    SUBMIT ORDER
+    ==========================================
+  */
+
+  orderForm.addEventListener(
+    "submit",
+    async function (event) {
+
+      event.preventDefault();
+
+
+      errorMessage.style.display =
+        "none";
+
+
+      const submitButton =
+        orderForm.querySelector(
+          ".submit-button"
+        );
+
+
+      submitButton.disabled =
+        true;
+
+      submitButton.textContent =
+        "Uploading...";
+
+
+      try {
+
+        /*
+          ====================================
+          CUSTOMER INFORMATION
+          ====================================
+        */
+
+        const customerName =
+          document
+            .getElementById("customerName")
+            .value
+            .trim();
+
+        const phone =
+          document
+            .getElementById("customerPhone")
+            .value
+            .trim();
+
+        const service =
+          getSelectedService();
+
+
+        /*
+          ====================================
+          DELIVERY INFORMATION
+          ====================================
+        */
+
+        const deliveryRequested =
+          getDeliveryChoice() === "delivery";
+
+        const blockNumber =
+          deliveryRequested
+            ? blockNumberInput.value.trim()
+            : null;
+
+        const houseNumber =
+          deliveryRequested
+            ? houseNumberInput.value.trim()
+            : null;
+
+
+        /*
+          Validate delivery fields.
+        */
+
+        if (
+          deliveryRequested &&
+          (!blockNumber || !houseNumber)
+        ) {
+
+          throw new Error(
+            "Please enter your block and house number for delivery."
+          );
+        }
+
+
+        /*
+          ====================================
+          GET FILE
+          ====================================
+        */
+
+        let selectedFile = null;
+
+
+        if (service === "Print") {
+
+          selectedFile =
+            document
+              .getElementById("fileInput")
+              .files[0] || null;
+
+        } else {
+
+          selectedFile =
+            document
+              .getElementById("generalFileInput")
+              .files[0] || null;
+        }
+
+
+        const selectedFileName =
+          selectedFile
+            ? selectedFile.name
+            : null;
+
+
+        /*
+          ====================================
+          CREATE ORDER NUMBER
+          ====================================
+        */
+
+        const orderNumber =
+          createOrderNumber();
+
+
+        /*
+          ====================================
+          UPLOAD FILE
+          ====================================
+        */
+
+        submitButton.textContent =
+          "Uploading file...";
+
+
+        const filePath =
+          await uploadOrderFile(
+            selectedFile,
+            orderNumber
+          );
+
+
+        /*
+          ====================================
+          CREATE DATABASE ORDER
+          ====================================
+        */
+
+        submitButton.textContent =
+          "Creating order...";
+
+
+        const {
+          error: orderError
+        } =
+          await supabaseClient
+            .from("orders")
+            .insert([
+              {
+                order_number:
+                  orderNumber,
+
+                customer_name:
+                  customerName,
+
+                phone:
+                  phone,
+
+                service:
+                  service,
+
+                status:
+                  "received",
+
+                file_name:
+                  selectedFileName,
+
+                file_path:
+                  filePath,
+
+                notify_customer:
+                  notifyCustomer.checked,
+
+                delivery_requested:
+                  deliveryRequested,
+
+                block_number:
+                  blockNumber,
+
+                house_number:
+                  houseNumber
+              }
+            ]);
+
+
+        if (orderError) {
+
+          console.error(
+            "Supabase order error:",
+            orderError
+          );
+
+          throw orderError;
+        }
+
+
+        /*
+          ====================================
+          SUCCESS
+          ====================================
+        */
+
+        console.log(
+          "Birtat order created:",
+          orderNumber
+        );
+
+        console.log(
+          "Stored file path:",
+          filePath
+        );
+
+        console.log(
+          "Delivery requested:",
+          deliveryRequested
+        );
+
+        console.log(
+          "Block:",
+          blockNumber
+        );
+
+        console.log(
+          "House:",
+          houseNumber
+        );
+
+
+        orderNumberDisplay.textContent =
+          "Order #" + orderNumber;
+
+
+        orderForm.style.display =
+          "none";
+
+
+        successMessage.style.display =
+          "block";
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+
+      } catch (error) {
+
+        console.error(
+          "Birtat order error:",
+          error
+        );
+
+
+        /*
+          Show the real error in the
+          browser console, but keep the
+          customer-facing message simple.
+        */
+
+        if (
+          error.message ===
+          "Please enter your block and house number for delivery."
+        ) {
+
+          errorMessage.textContent =
+            error.message;
+
+        } else {
+
+          errorMessage.textContent =
+            "Something went wrong while sending your order. Please try again.";
+        }
+
+
+        errorMessage.style.display =
+          "block";
+
+
+        submitButton.disabled =
+          false;
+
+        submitButton.textContent =
+          "Send Order →";
+      }
+
+    }
+  );
+
+
+  /*
+    ==========================================
+    INITIALIZE
+    ==========================================
+  */
+
+  updateServiceFields();
+  updateDeliveryFields();
+
+</script>
+
+</body>
+</html>
