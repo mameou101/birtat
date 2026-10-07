@@ -1,9 +1,24 @@
 export default async function handler(req, res) {
+  // Only allow POST requests
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({
+      error: "Method not allowed"
+    });
   }
 
   try {
+    // Get the bot token from Vercel Environment Variables
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+
+    // Your Telegram chat ID
+    const chatId = "7090048683";
+
+    if (!botToken) {
+      return res.status(500).json({
+        error: "TELEGRAM_BOT_TOKEN is not configured"
+      });
+    }
+
     const {
       orderNumber,
       customerName,
@@ -18,43 +33,35 @@ export default async function handler(req, res) {
       delivery,
       blockNumber,
       houseNumber
-    } = req.body;
-
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = "7090048683";
-
-    if (!botToken) {
-      return res.status(500).json({
-        error: "TELEGRAM_BOT_TOKEN is not configured"
-      });
-    }
+    } = req.body || {};
 
     const message = `
 🖨️ NEW BIRTAT ORDER
 
-📋 Order: ${orderNumber}
+📋 Order: ${orderNumber || "-"}
 
-👤 Customer: ${customerName}
-📱 Phone: ${phone}
+👤 Customer: ${customerName || "-"}
+📱 Phone: ${phone || "-"}
 
-🖨️ Service: ${service}
+🖨️ Service: ${service || "-"}
 📄 File: ${fileName || "No file"}
 
-📑 Pages: ${pages}
-📚 Copies: ${copies}
-🎨 Color: ${colorMode}
+📑 Pages: ${pages || "-"}
+📚 Copies: ${copies || "-"}
+🎨 Color: ${colorMode || "-"}
 
-💰 Price: ${price}
+💰 Price: ${price || "-"}
 
-🚚 Delivery: ${delivery}
+🚚 Delivery: ${delivery || "-"}
 🏠 Block: ${blockNumber || "-"}
 🏠 House: ${houseNumber || "-"}
 
-${fileUrl ? `📎 File: ${fileUrl}` : ""}
+${fileUrl ? `📎 File:\n${fileUrl}` : ""}
 `;
 
+    // Send message through Telegram Bot API
     const telegramResponse = await fetch(
-      `https://api.telegram.org/bot${8658293089:AAE2GpM8WMDKWkAh6avt3-ggt4cEidJVM30}/sendMessage`,
+      `https://api.telegram.org/bot${botToken}/sendMessage`,
       {
         method: "POST",
         headers: {
@@ -69,23 +76,28 @@ ${fileUrl ? `📎 File: ${fileUrl}` : ""}
 
     const telegramData = await telegramResponse.json();
 
-    if (!telegramResponse.ok) {
-      console.error("Telegram error:", telegramData);
+    // Telegram rejected the request
+    if (!telegramResponse.ok || !telegramData.ok) {
+      console.error("Telegram API error:", telegramData);
 
       return res.status(500).json({
-        error: "Telegram notification failed"
+        error: "Telegram notification failed",
+        telegram: telegramData
       });
     }
 
+    // Everything worked
     return res.status(200).json({
-      success: true
+      success: true,
+      message: "Telegram notification sent"
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Server error:", error);
 
     return res.status(500).json({
-      error: "Server error"
+      error: "Server error",
+      details: error.message
     });
   }
 }
