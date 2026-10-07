@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -313,8 +314,6 @@
       accent-color: black;
     }
 
-    /* DELIVERY */
-
     .delivery-options {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -559,10 +558,6 @@
       font-size: 0.8rem;
     }
 
-    /* ==========================================
-       BIRTAT HELP BUTTON
-       ========================================== */
-
     .help-button {
       position: fixed;
       top: 90px;
@@ -591,16 +586,14 @@
       background: #222;
     }
 
-    .help-button:active { transform: scale(.95); }
+    .help-button:active {
+      transform: scale(.95);
+    }
 
     .help-button:focus-visible {
       outline: 3px solid rgba(0,0,0,.16);
       outline-offset: 3px;
     }
-
-    /* ==========================================
-       INTERACTIVE TUTORIAL
-       ========================================== */
 
     .tour-root {
       position: fixed;
@@ -639,7 +632,9 @@
       transition: left .38s cubic-bezier(.22,1,.36,1), top .38s cubic-bezier(.22,1,.36,1), width .38s cubic-bezier(.22,1,.36,1), height .38s cubic-bezier(.22,1,.36,1), border-radius .25s ease, opacity .2s ease;
     }
 
-    .tour-spotlight.visible { opacity: 1; }
+    .tour-spotlight.visible {
+      opacity: 1;
+    }
 
     .tour-pulse {
       position: fixed;
@@ -657,9 +652,18 @@
     }
 
     @keyframes tourPulse {
-      0% { box-shadow: 0 0 0 0 rgba(255,255,255,.5); opacity: 1; }
-      70% { box-shadow: 0 0 0 14px rgba(255,255,255,0); opacity: .85; }
-      100% { box-shadow: 0 0 0 18px rgba(255,255,255,0); opacity: 0; }
+      0% {
+        box-shadow: 0 0 0 0 rgba(255,255,255,.5);
+        opacity: 1;
+      }
+      70% {
+        box-shadow: 0 0 0 14px rgba(255,255,255,0);
+        opacity: .85;
+      }
+      100% {
+        box-shadow: 0 0 0 18px rgba(255,255,255,0);
+        opacity: 0;
+      }
     }
 
     .tour-card {
@@ -710,7 +714,9 @@
       padding: 4px 0;
     }
 
-    .tour-skip:hover { color: #111; }
+    .tour-skip:hover {
+      color: #111;
+    }
 
     .tour-card h2 {
       font-family: "Space Grotesk", sans-serif;
@@ -767,8 +773,15 @@
       color: #555;
     }
 
-    .tour-back:hover:not(:disabled) { background: #f4f4f1; color: #111; }
-    .tour-back:disabled { opacity: .35; cursor: default; }
+    .tour-back:hover:not(:disabled) {
+      background: #f4f4f1;
+      color: #111;
+    }
+
+    .tour-back:disabled {
+      opacity: .35;
+      cursor: default;
+    }
 
     .tour-next {
       border: 1px solid #111;
@@ -777,7 +790,10 @@
       min-width: 86px;
     }
 
-    .tour-next:hover { background: #282828; transform: translateY(-1px); }
+    .tour-next:hover {
+      background: #282828;
+      transform: translateY(-1px);
+    }
 
     .tour-dots {
       display: flex;
@@ -813,10 +829,28 @@
       transform: rotate(45deg);
     }
 
-    .tour-card[data-position="bottom"]::after { top: -7px; left: 40px; transform: rotate(225deg); }
-    .tour-card[data-position="top"]::after { bottom: -7px; left: 40px; }
-    .tour-card[data-position="right"]::after { left: -7px; top: 38px; transform: rotate(135deg); }
-    .tour-card[data-position="left"]::after { right: -7px; top: 38px; transform: rotate(-45deg); }
+    .tour-card[data-position="bottom"]::after {
+      top: -7px;
+      left: 40px;
+      transform: rotate(225deg);
+    }
+
+    .tour-card[data-position="top"]::after {
+      bottom: -7px;
+      left: 40px;
+    }
+
+    .tour-card[data-position="right"]::after {
+      left: -7px;
+      top: 38px;
+      transform: rotate(135deg);
+    }
+
+    .tour-card[data-position="left"]::after {
+      right: -7px;
+      top: 38px;
+      transform: rotate(-45deg);
+    }
 
     .tour-welcome {
       position: fixed;
@@ -902,10 +936,18 @@
       cursor: pointer;
     }
 
-    .tour-start:hover { background: #282828; }
-    .tour-later:hover { background: #f6f6f3; color: #111; }
+    .tour-start:hover {
+      background: #282828;
+    }
 
-    body.tour-lock { overflow: hidden; }
+    .tour-later:hover {
+      background: #f6f6f3;
+      color: #111;
+    }
+
+    body.tour-lock {
+      overflow: hidden;
+    }
 
     @media (max-width: 800px) {
       .order-layout {
@@ -985,8 +1027,6 @@
 
 <body>
 
-<!-- FLOATING HELP -->
-
 <button
   type="button"
   class="help-button"
@@ -996,7 +1036,6 @@
   ?
 </button>
 
-<!-- INTERACTIVE TUTORIAL -->
 <div class="tour-root" id="tourRoot" aria-hidden="true">
   <div class="tour-backdrop" id="tourBackdrop"></div>
   <div class="tour-spotlight" id="tourSpotlight"></div>
@@ -1017,7 +1056,7 @@
 
   <div class="tour-card" id="tourCard" role="dialog" aria-live="polite">
     <div class="tour-kicker">
-      <span class="tour-step" id="tourStep">Step 1 of 6</span>
+      <span class="tour-step" id="tourStep">Step 1 of 8</span>
       <button type="button" class="tour-skip" id="tourSkip">Skip tour</button>
     </div>
     <h2 id="tourTitle"></h2>
@@ -1055,13 +1094,9 @@
 
     <div class="order-layout">
 
-      <!-- FORM -->
-
       <div class="form-card">
 
         <form id="orderForm">
-
-          <!-- SERVICE -->
 
           <div class="form-section">
 
@@ -1188,8 +1223,6 @@
 
           </div>
 
-          <!-- PRINT -->
-
           <div
             class="form-section service-fields active"
             id="printFields"
@@ -1248,7 +1281,8 @@
               class="option-row"
               style="margin-top: 15px;"
             >
-<div class="option-box">
+
+              <div class="option-box">
 
                 <label for="colorMode">
                   Print type
@@ -1293,8 +1327,6 @@
 
           </div>
 
-          <!-- COPY -->
-
           <div
             class="form-section service-fields"
             id="copyFields"
@@ -1306,7 +1338,8 @@
             </div>
 
             <div class="option-row">
-<div class="option-box">
+
+              <div class="option-box">
 
                 <label for="copyColor">
                   Copy type
@@ -1364,8 +1397,6 @@
             </div>
 
           </div>
-
-          <!-- OTHER SERVICES -->
 
           <div
             class="form-section service-fields"
@@ -1434,8 +1465,6 @@
 
           </div>
 
-          <!-- CUSTOMER -->
-
           <div class="form-section">
 
             <div class="section-label">
@@ -1499,8 +1528,6 @@
             </div>
 
           </div>
-
-          <!-- DELIVERY -->
 
           <div class="form-section">
 
@@ -1608,8 +1635,6 @@
 
           </div>
 
-          <!-- NOTIFICATIONS -->
-
           <div class="form-section">
 
             <div class="section-label">
@@ -1643,8 +1668,6 @@
             </div>
 
           </div>
-
-          <!-- CONFIRM -->
 
           <div class="form-section">
 
@@ -1687,8 +1710,6 @@
 
         </form>
 
-        <!-- SUCCESS -->
-
         <div
           class="success-message"
           id="successMessage"
@@ -1724,8 +1745,6 @@
         </div>
 
       </div>
-
-      <!-- SUMMARY -->
 
       <aside class="summary-card">
 
@@ -1794,12 +1813,9 @@
 
 </main>
 
-<!-- SUPABASE -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
-<!-- BIRTAT TUTORIAL LOGIC -->
 <script>
 (() => {
   const root = document.getElementById("tourRoot");
@@ -1820,14 +1836,63 @@
   const skip = document.getElementById("tourSkip");
 
   const steps = [
-    { target: ".service-grid", title: "Start with a service", text: "Start by selecting the service you want. Birtat will show the options that belong to that service.", position: "bottom", radius: 14 },
-    { target: ".service-option label[for=\"service-print\"]", title: "Choose the right option", text: "Select the service you want us to handle. If you are printing a file, choose Print; other services have their own simple options.", position: "bottom", radius: 12 },
-    { target: "#fileInput", fallback: ".file-drop", title: "Add your file", text: "If your service needs a file, upload it here. For PDFs, we can read the page count automatically to help calculate the estimate.", position: "right", radius: 14 },
-    { target: "#colorMode", title: "Choose your print type", text: "Birtat prints on A4 paper. Choose Black & White at 10 ETB per page or Color at 15 ETB per page, then select how many copies you need.", position: "right", radius: 11 },
-    { target: "#customerName", title: "Add your contact details", text: "Enter your name and contact number carefully. We use these details to identify your order and contact you about it when necessary.", position: "right", radius: 11 },
-    { target: ".delivery-options", title: "Choose pickup or delivery", text: "Choose how you want to receive your order. If you select delivery, provide the requested location details so we know where to bring it.", position: "top", radius: 12 },
-    { target: ".summary-card", title: "Review before sending", text: "Use the summary to check everything at a glance: service, options, quantity, delivery, and estimated price.", position: "left", radius: 16 },
-    { target: "#confirm", title: "Finish your order", text: "Review your details, confirm the estimate, and send the order. We will receive your request and can begin preparing it.", position: "top", radius: 8 }
+    {
+      target: ".service-grid",
+      title: "Start with a service",
+      text: "Start by selecting the service you want. Birtat will show the options that belong to that service.",
+      position: "bottom",
+      radius: 14
+    },
+    {
+      target: ".service-option label[for=\"service-print\"]",
+      title: "Choose the right option",
+      text: "Select the service you want us to handle. If you are printing a file, choose Print; other services have their own simple options.",
+      position: "bottom",
+      radius: 12
+    },
+    {
+      target: "#fileInput",
+      fallback: ".file-drop",
+      title: "Add your file",
+      text: "If your service needs a file, upload it here. For PDFs, we can read the page count automatically to help calculate the estimate.",
+      position: "right",
+      radius: 14
+    },
+    {
+      target: "#colorMode",
+      title: "Choose your print type",
+      text: "Birtat prints on A4 paper. Choose Black & White at 10 ETB per page or Color at 15 ETB per page, then select how many copies you need.",
+      position: "right",
+      radius: 11
+    },
+    {
+      target: "#customerName",
+      title: "Add your contact details",
+      text: "Enter your name and contact number carefully. We use these details to identify your order and contact you about it when necessary.",
+      position: "right",
+      radius: 11
+    },
+    {
+      target: ".delivery-options",
+      title: "Choose pickup or delivery",
+      text: "Choose how you want to receive your order. If you select delivery, provide the requested location details so we know where to bring it.",
+      position: "top",
+      radius: 12
+    },
+    {
+      target: ".summary-card",
+      title: "Review before sending",
+      text: "Use the summary to check everything at a glance: service, options, quantity, delivery, and estimated price.",
+      position: "left",
+      radius: 16
+    },
+    {
+      target: "#confirm",
+      title: "Finish your order",
+      text: "Review your details, confirm the estimate, and send the order. We will receive your request and can begin preparing it.",
+      position: "top",
+      radius: 8
+    }
   ];
 
   let current = 0;
@@ -1835,31 +1900,46 @@
 
   function getTarget(step) {
     let el = document.querySelector(step.target);
+
     if ((!el || el.offsetParent === null) && step.fallback) {
       el = document.querySelector(step.fallback);
     }
+
     return el;
   }
 
   function createDots() {
     dots.innerHTML = "";
+
     steps.forEach((_, index) => {
       const dot = document.createElement("span");
+
       dot.className = "tour-dot";
       dot.setAttribute("aria-hidden", "true");
       dot.dataset.index = index;
+
       dots.appendChild(dot);
     });
   }
 
   function setSpotlight(el, radius = 12) {
     if (!el) return;
+
     const rect = el.getBoundingClientRect();
     const pad = window.innerWidth <= 600 ? 6 : 8;
+
     const left = Math.max(5, rect.left - pad);
     const top = Math.max(5, rect.top - pad);
-    const width = Math.min(window.innerWidth - left - 5, rect.width + pad * 2);
-    const height = Math.min(window.innerHeight - top - 5, rect.height + pad * 2);
+
+    const width = Math.min(
+      window.innerWidth - left - 5,
+      rect.width + pad * 2
+    );
+
+    const height = Math.min(
+      window.innerHeight - top - 5,
+      rect.height + pad * 2
+    );
 
     spotlight.style.left = `${left}px`;
     spotlight.style.top = `${top}px`;
@@ -1867,10 +1947,16 @@
     spotlight.style.height = `${height}px`;
     spotlight.style.borderRadius = `${radius}px`;
 
-    pulse.style.left = `${rect.left + rect.width / 2}px`;
-    pulse.style.top = `${rect.top + rect.height / 2}px`;
+    pulse.style.left =
+      `${rect.left + rect.width / 2}px`;
+
+    pulse.style.top =
+      `${rect.top + rect.height / 2}px`;
+
     pulse.classList.remove("active");
+
     void pulse.offsetWidth;
+
     pulse.classList.add("active");
     spotlight.classList.add("visible");
   }
@@ -1878,17 +1964,40 @@
   function placeCard(el, preferred) {
     const rect = el.getBoundingClientRect();
     const gap = 18;
-    const cardWidth = Math.min(390, window.innerWidth - 32);
-    const cardHeight = Math.min(card.offsetHeight || 240, window.innerHeight - 32);
+
+    const cardWidth =
+      Math.min(390, window.innerWidth - 32);
+
+    const cardHeight =
+      Math.min(
+        card.offsetHeight || 240,
+        window.innerHeight - 32
+      );
+
     let x = 16;
     let y = 16;
     let position = preferred;
 
     const choices = {
-      bottom: () => ({ x: rect.left + rect.width / 2 - cardWidth / 2, y: rect.bottom + gap }),
-      top: () => ({ x: rect.left + rect.width / 2 - cardWidth / 2, y: rect.top - cardHeight - gap }),
-      right: () => ({ x: rect.right + gap, y: rect.top + rect.height / 2 - cardHeight / 2 }),
-      left: () => ({ x: rect.left - cardWidth - gap, y: rect.top + rect.height / 2 - cardHeight / 2 })
+      bottom: () => ({
+        x: rect.left + rect.width / 2 - cardWidth / 2,
+        y: rect.bottom + gap
+      }),
+
+      top: () => ({
+        x: rect.left + rect.width / 2 - cardWidth / 2,
+        y: rect.top - cardHeight - gap
+      }),
+
+      right: () => ({
+        x: rect.right + gap,
+        y: rect.top + rect.height / 2 - cardHeight / 2
+      }),
+
+      left: () => ({
+        x: rect.left - cardWidth - gap,
+        y: rect.top + rect.height / 2 - cardHeight / 2
+      })
     };
 
     const fits = point =>
@@ -1900,16 +2009,39 @@
     let point = choices[position]();
 
     if (!fits(point)) {
-      const order = ["bottom", "top", "right", "left"];
-      const alternate = order.find(p => fits(choices[p]()));
+      const order = [
+        "bottom",
+        "top",
+        "right",
+        "left"
+      ];
+
+      const alternate =
+        order.find(
+          p => fits(choices[p]())
+        );
+
       if (alternate) {
         position = alternate;
         point = choices[position]();
       }
     }
 
-    x = Math.max(16, Math.min(point.x, window.innerWidth - cardWidth - 16));
-    y = Math.max(16, Math.min(point.y, window.innerHeight - cardHeight - 16));
+    x = Math.max(
+      16,
+      Math.min(
+        point.x,
+        window.innerWidth - cardWidth - 16
+      )
+    );
+
+    y = Math.max(
+      16,
+      Math.min(
+        point.y,
+        window.innerHeight - cardHeight - 16
+      )
+    );
 
     card.dataset.position = position;
     card.style.left = `${x}px`;
@@ -1917,7 +2049,15 @@
   }
 
   async function renderStep(index, instant = false) {
-    current = Math.max(0, Math.min(index, steps.length - 1));
+    current =
+      Math.max(
+        0,
+        Math.min(
+          index,
+          steps.length - 1
+        )
+      );
+
     const step = steps[current];
     const el = getTarget(step);
 
@@ -1925,114 +2065,264 @@
     card.classList.remove("visible");
 
     if (el) {
-      el.scrollIntoView({ behavior: instant ? "auto" : "smooth", block: "center", inline: "nearest" });
-      await new Promise(resolve => setTimeout(resolve, instant ? 30 : 360));
+      el.scrollIntoView({
+        behavior: instant ? "auto" : "smooth",
+        block: "center",
+        inline: "nearest"
+      });
+
+      await new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            instant ? 30 : 360
+          )
+      );
     }
 
     const finalTarget = getTarget(step);
+
     if (!finalTarget) return;
 
     title.textContent = step.title;
     text.textContent = step.text;
-    stepLabel.textContent = `Step ${current + 1} of ${steps.length}`;
-    progress.style.width = `${((current + 1) / steps.length) * 100}%`;
-    back.disabled = current === 0;
-    next.textContent = current === steps.length - 1 ? "Finish ✓" : "Next →";
 
-    dots.querySelectorAll(".tour-dot").forEach((dot, i) => {
-      dot.classList.toggle("active", i === current);
-    });
+    stepLabel.textContent =
+      `Step ${current + 1} of ${steps.length}`;
 
-    setSpotlight(finalTarget, step.radius);
-    placeCard(finalTarget, step.position);
-    requestAnimationFrame(() => card.classList.add("visible"));
+    progress.style.width =
+      `${((current + 1) / steps.length) * 100}%`;
+
+    back.disabled =
+      current === 0;
+
+    next.textContent =
+      current === steps.length - 1
+        ? "Finish ✓"
+        : "Next →";
+
+    dots.querySelectorAll(".tour-dot")
+      .forEach((dot, i) => {
+        dot.classList.toggle(
+          "active",
+          i === current
+        );
+      });
+
+    setSpotlight(
+      finalTarget,
+      step.radius
+    );
+
+    placeCard(
+      finalTarget,
+      step.position
+    );
+
+    requestAnimationFrame(
+      () =>
+        card.classList.add("visible")
+    );
   }
 
   function openTour() {
     active = true;
     current = 0;
-    root.classList.add("is-open", "is-welcome");
-    root.setAttribute("aria-hidden", "false");
-    document.body.classList.add("tour-lock");
-    helpButton.setAttribute("aria-expanded", "true");
+
+    root.classList.add(
+      "is-open",
+      "is-welcome"
+    );
+
+    root.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.classList.add(
+      "tour-lock"
+    );
+
+    helpButton.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
     createDots();
   }
 
   function startTour() {
-    root.classList.remove("is-welcome");
+    root.classList.remove(
+      "is-welcome"
+    );
+
     renderStep(0);
   }
 
   function closeTour(markComplete = false) {
     active = false;
-    root.classList.remove("is-open", "is-welcome");
-    root.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("tour-lock");
-    card.classList.remove("visible");
-    spotlight.classList.remove("visible");
-    pulse.classList.remove("active");
-    helpButton.setAttribute("aria-expanded", "false");
-    if (markComplete) localStorage.setItem("birtatTourCompleted", "1");
+
+    root.classList.remove(
+      "is-open",
+      "is-welcome"
+    );
+
+    root.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    document.body.classList.remove(
+      "tour-lock"
+    );
+
+    card.classList.remove(
+      "visible"
+    );
+
+    spotlight.classList.remove(
+      "visible"
+    );
+
+    pulse.classList.remove(
+      "active"
+    );
+
+    helpButton.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    if (markComplete) {
+      localStorage.setItem(
+        "birtatTourCompleted",
+        "1"
+      );
+    }
   }
 
-  helpButton.setAttribute("aria-expanded", "false");
-  helpButton.addEventListener("click", openTour);
-  start.addEventListener("click", startTour);
-  later.addEventListener("click", () => closeTour(false));
-  skip.addEventListener("click", () => closeTour(true));
-  back.addEventListener("click", () => renderStep(current - 1));
-  next.addEventListener("click", () => {
-    if (current === steps.length - 1) closeTour(true);
-    else renderStep(current + 1);
-  });
+  helpButton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
 
-  window.addEventListener("resize", () => {
-    if (!active || root.classList.contains("is-welcome")) return;
-    const step = steps[current];
-    const el = getTarget(step);
-    if (el) {
-      setSpotlight(el, step.radius);
-      placeCard(el, step.position);
+  helpButton.addEventListener(
+    "click",
+    openTour
+  );
+
+  start.addEventListener(
+    "click",
+    startTour
+  );
+
+  later.addEventListener(
+    "click",
+    () => closeTour(false)
+  );
+
+  skip.addEventListener(
+    "click",
+    () => closeTour(true)
+  );
+
+  back.addEventListener(
+    "click",
+    () =>
+      renderStep(current - 1)
+  );
+
+  next.addEventListener(
+    "click",
+    () => {
+      if (
+        current ===
+        steps.length - 1
+      ) {
+        closeTour(true);
+      } else {
+        renderStep(current + 1);
+      }
     }
-  });
+  );
 
-  window.addEventListener("keydown", event => {
-    if (!active) return;
-    if (event.key === "Escape") closeTour(false);
-    if (!root.classList.contains("is-welcome")) {
-      if (event.key === "ArrowRight") next.click();
-      if (event.key === "ArrowLeft") back.click();
+  window.addEventListener(
+    "resize",
+    () => {
+      if (
+        !active ||
+        root.classList.contains(
+          "is-welcome"
+        )
+      ) {
+        return;
+      }
+
+      const step = steps[current];
+      const el = getTarget(step);
+
+      if (el) {
+        setSpotlight(
+          el,
+          step.radius
+        );
+
+        placeCard(
+          el,
+          step.position
+        );
+      }
     }
-  });
+  );
 
-  // First visit: introduce the guide automatically.
-  if (!localStorage.getItem("birtatTourCompleted")) {
-    setTimeout(openTour, 900);
+  window.addEventListener(
+    "keydown",
+    event => {
+      if (!active) return;
+
+      if (event.key === "Escape") {
+        closeTour(false);
+      }
+
+      if (
+        !root.classList.contains(
+          "is-welcome"
+        )
+      ) {
+        if (
+          event.key === "ArrowRight"
+        ) {
+          next.click();
+        }
+
+        if (
+          event.key === "ArrowLeft"
+        ) {
+          back.click();
+        }
+      }
+    }
+  );
+
+  if (
+    !localStorage.getItem(
+      "birtatTourCompleted"
+    )
+  ) {
+    setTimeout(
+      openTour,
+      900
+    );
   }
 })();
 </script>
 
-<!-- PDF.JS -->
-
 <script type="module">
-
-  /*
-    ==========================================
-    BIRTAT — ORDER LOGIC
-    ==========================================
-  */
 
   const prices = {
     bw: 10,
     color: 15
   };
-
-
-  /*
-    ==========================================
-    PDF.JS
-    ==========================================
-  */
 
   const pdfjsLib = await import(
     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
@@ -2040,13 +2330,6 @@
 
   pdfjsLib.GlobalWorkerOptions.workerSrc =
     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
-
-
-  /*
-    ==========================================
-    ELEMENTS
-    ==========================================
-  */
 
   const serviceInputs =
     document.querySelectorAll(
@@ -2126,13 +2409,6 @@
 
   let detectedPages = null;
 
-
-  /*
-    ==========================================
-    NOTIFICATION PERMISSION
-    ==========================================
-  */
-
   notifyCustomer.addEventListener(
     "change",
     async function () {
@@ -2193,9 +2469,6 @@
 
           this.checked = false;
 
-          console.log(
-            "Notification permission was not granted."
-          );
         }
 
       } catch (error) {
@@ -2207,16 +2480,8 @@
 
         this.checked = false;
       }
-
     }
   );
-
-
-  /*
-    ==========================================
-    GET SELECTED SERVICE
-    ==========================================
-  */
 
   function getSelectedService() {
 
@@ -2230,13 +2495,6 @@
       : "Print";
   }
 
-
-  /*
-    ==========================================
-    GET DELIVERY CHOICE
-    ==========================================
-  */
-
   function getDeliveryChoice() {
 
     const selected =
@@ -2249,13 +2507,6 @@
       : "pickup";
   }
 
-
-  /*
-    ==========================================
-    UPDATE DELIVERY FIELDS
-    ==========================================
-  */
-
   function updateDeliveryFields() {
 
     const deliveryChoice =
@@ -2264,17 +2515,20 @@
     const isDelivery =
       deliveryChoice === "delivery";
 
-
     if (isDelivery) {
 
-      deliveryFields.classList.add("active");
+      deliveryFields.classList.add(
+        "active"
+      );
 
       blockNumberInput.required = true;
       houseNumberInput.required = true;
 
     } else {
 
-      deliveryFields.classList.remove("active");
+      deliveryFields.classList.remove(
+        "active"
+      );
 
       blockNumberInput.required = false;
       houseNumberInput.required = false;
@@ -2283,25 +2537,19 @@
       houseNumberInput.value = "";
     }
 
-
     summaryDelivery.textContent =
       isDelivery
         ? "Delivery"
         : "Pick up";
   }
 
-
-  /*
-    ==========================================
-    GET COPY COUNT
-    ==========================================
-  */
-
   function getCopyCount() {
 
     let copies =
       parseInt(
-        document.getElementById("copies").value
+        document.getElementById(
+          "copies"
+        ).value
       );
 
     if (!copies || copies < 1) {
@@ -2311,33 +2559,40 @@
     return copies;
   }
 
-
-  /*
-    ==========================================
-    UPDATE SERVICE FIELDS
-    ==========================================
-  */
-
   function updateServiceFields() {
 
     const service =
       getSelectedService();
 
-    printFields.classList.remove("active");
-    copyFields.classList.remove("active");
-    generalFields.classList.remove("active");
+    printFields.classList.remove(
+      "active"
+    );
+
+    copyFields.classList.remove(
+      "active"
+    );
+
+    generalFields.classList.remove(
+      "active"
+    );
 
     if (service === "Print") {
 
-      printFields.classList.add("active");
+      printFields.classList.add(
+        "active"
+      );
 
     } else if (service === "Copy") {
 
-      copyFields.classList.add("active");
+      copyFields.classList.add(
+        "active"
+      );
 
     } else {
 
-      generalFields.classList.add("active");
+      generalFields.classList.add(
+        "active"
+      );
     }
 
     summaryService.textContent =
@@ -2346,24 +2601,13 @@
     updateSummary();
   }
 
-
-  /*
-    ==========================================
-    UPDATE SUMMARY
-    ==========================================
-  */
-
   function updateSummary() {
 
     const service =
       getSelectedService();
 
-
-    /*
-      PRINT
-    */
-
     if (service === "Print") {
+
       const color =
         document.getElementById(
           "colorMode"
@@ -2380,7 +2624,6 @@
       summaryCopies.textContent =
         copies;
 
-
       if (!detectedPages) {
 
         summaryPages.textContent =
@@ -2391,7 +2634,6 @@
 
         return;
       }
-
 
       const pricePerPage =
         prices[color];
@@ -2410,12 +2652,8 @@
       return;
     }
 
-
-    /*
-      COPY
-    */
-
     if (service === "Copy") {
+
       const color =
         document.getElementById(
           "copyColor"
@@ -2453,13 +2691,6 @@
       return;
     }
 
-
-    /*
-      OTHER SERVICES
-    */
-
-    
-
     summaryColor.textContent =
       "—";
 
@@ -2472,13 +2703,6 @@
     summaryPrice.textContent =
       "Quote";
   }
-
-
-  /*
-    ==========================================
-    COUNT PDF PAGES
-    ==========================================
-  */
 
   async function countPdfPages(file) {
 
@@ -2494,7 +2718,6 @@
 
       summaryPrice.textContent =
         "Calculating…";
-
 
       const arrayBuffer =
         await file.arrayBuffer();
@@ -2537,13 +2760,6 @@
     }
   }
 
-
-  /*
-    ==========================================
-    PRINT FILE SELECTION
-    ==========================================
-  */
-
   fileInput.addEventListener(
     "change",
     async function () {
@@ -2575,11 +2791,6 @@
           .pop()
           .toLowerCase();
 
-
-      /*
-        PDF
-      */
-
       if (
         fileExtension === "pdf" ||
         file.type === "application/pdf"
@@ -2589,11 +2800,6 @@
 
         return;
       }
-
-
-      /*
-        IMAGE
-      */
 
       if (
         fileExtension === "jpg" ||
@@ -2612,11 +2818,6 @@
         return;
       }
 
-
-      /*
-        OTHER FILE TYPES
-      */
-
       detectedPages =
         null;
 
@@ -2630,13 +2831,6 @@
         "Quote";
     }
   );
-
-
-  /*
-    ==========================================
-    GENERAL FILE SELECTION
-    ==========================================
-  */
 
   generalFileInput.addEventListener(
     "change",
@@ -2652,16 +2846,8 @@
         generalFileName.textContent =
           "No file selected";
       }
-
     }
   );
-
-
-  /*
-    ==========================================
-    SERVICE EVENTS
-    ==========================================
-  */
 
   serviceInputs.forEach(
     input => {
@@ -2674,13 +2860,6 @@
     }
   );
 
-
-  /*
-    ==========================================
-    DELIVERY EVENTS
-    ==========================================
-  */
-
   deliveryInputs.forEach(
     input => {
 
@@ -2692,14 +2871,12 @@
     }
   );
 
-
   document
     .getElementById("colorMode")
     .addEventListener(
       "change",
       updateSummary
     );
-
 
   document
     .getElementById("copies")
@@ -2708,7 +2885,6 @@
       updateSummary
     );
 
-
   document
     .getElementById("copyColor")
     .addEventListener(
@@ -2716,20 +2892,12 @@
       updateSummary
     );
 
-
   document
     .getElementById("copyQuantity")
     .addEventListener(
       "input",
       updateSummary
     );
-
-
-  /*
-    ==========================================
-    READ SERVICE FROM URL
-    ==========================================
-  */
 
   const params =
     new URLSearchParams(
@@ -2758,13 +2926,6 @@
     }
   }
 
-
-  /*
-    ==========================================
-    CREATE ORDER NUMBER
-    ==========================================
-  */
-
   function createOrderNumber() {
 
     const timestamp =
@@ -2775,13 +2936,6 @@
     return "KP-" + timestamp;
   }
 
-
-  /*
-    ==========================================
-    UPLOAD FILE TO SUPABASE STORAGE
-    ==========================================
-  */
-
   async function uploadOrderFile(
     file,
     orderNumber
@@ -2791,31 +2945,19 @@
       return null;
     }
 
-
-    /*
-      Make the filename safe.
-    */
-
     const safeFileName =
       file.name.replace(
         /[^a-zA-Z0-9._-]/g,
         "_"
       );
 
-
-    /*
-      Each order gets its own folder.
-    */
-
     const filePath =
       `orders/${orderNumber}/${safeFileName}`;
-
 
     console.log(
       "Uploading file:",
       filePath
     );
-
 
     const {
       error: uploadError
@@ -2832,7 +2974,6 @@
           }
         );
 
-
     if (uploadError) {
 
       console.error(
@@ -2843,22 +2984,126 @@
       throw uploadError;
     }
 
-
     console.log(
       "File uploaded successfully:",
       filePath
     );
 
-
     return filePath;
   }
 
+  async function sendTelegramNotification({
+    orderNumber,
+    customerName,
+    phone,
+    service,
+    fileName,
+    fileUrl,
+    pages,
+    copies,
+    colorMode,
+    price,
+    delivery,
+    blockNumber,
+    houseNumber,
+    notes
+  }) {
 
-  /*
-    ==========================================
-    SUBMIT ORDER
-    ==========================================
-  */
+    try {
+
+      const response =
+        await fetch(
+          "/api/send-telegram",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              orderNumber,
+              customerName,
+              phone,
+              service,
+              fileName,
+              fileUrl,
+              pages,
+              copies,
+              colorMode,
+              price,
+              delivery,
+              blockNumber,
+              houseNumber,
+              notes
+            })
+          }
+        );
+
+      const data =
+        await response.json()
+          .catch(() => ({}));
+
+      if (!response.ok) {
+
+        console.error(
+          "Telegram notification failed:",
+          data
+        );
+
+        return false;
+      }
+
+      console.log(
+        "Telegram notification sent successfully."
+      );
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        "Telegram request error:",
+        error
+      );
+
+      return false;
+    }
+  }
+
+  function getPublicFileUrl(
+    filePath
+  ) {
+
+    if (!filePath) {
+      return null;
+    }
+
+    try {
+
+      const {
+        data
+      } =
+        supabaseClient
+          .storage
+          .from("order-files")
+          .getPublicUrl(
+            filePath
+          );
+
+      return data?.publicUrl || null;
+
+    } catch (error) {
+
+      console.error(
+        "Could not create public file URL:",
+        error
+      );
+
+      return null;
+    }
+  }
 
   orderForm.addEventListener(
     "submit",
@@ -2866,56 +3111,49 @@
 
       event.preventDefault();
 
-
       errorMessage.style.display =
         "none";
-
 
       const submitButton =
         orderForm.querySelector(
           ".submit-button"
         );
 
-
       submitButton.disabled =
         true;
 
-      submitButton.textContent =
-        "Uploading...";
-
-
       try {
-
-        /*
-          ====================================
-          CUSTOMER INFORMATION
-          ====================================
-        */
 
         const customerName =
           document
-            .getElementById("customerName")
+            .getElementById(
+              "customerName"
+            )
             .value
             .trim();
 
         const phone =
           document
-            .getElementById("customerPhone")
+            .getElementById(
+              "customerPhone"
+            )
             .value
             .trim();
 
         const service =
           getSelectedService();
 
-
-        /*
-          ====================================
-          DELIVERY INFORMATION
-          ====================================
-        */
+        const notes =
+          document
+            .getElementById(
+              "notes"
+            )
+            .value
+            .trim();
 
         const deliveryRequested =
-          getDeliveryChoice() === "delivery";
+          getDeliveryChoice() ===
+          "delivery";
 
         const blockNumber =
           deliveryRequested
@@ -2927,14 +3165,10 @@
             ? houseNumberInput.value.trim()
             : null;
 
-
-        /*
-          Validate delivery fields.
-        */
-
         if (
           deliveryRequested &&
-          (!blockNumber || !houseNumber)
+          (!blockNumber ||
+            !houseNumber)
         ) {
 
           throw new Error(
@@ -2942,57 +3176,95 @@
           );
         }
 
-
-        /*
-          ====================================
-          GET FILE
-          ====================================
-        */
-
         let selectedFile = null;
 
-
-        if (service === "Print") {
+        if (
+          service === "Print"
+        ) {
 
           selectedFile =
             document
-              .getElementById("fileInput")
+              .getElementById(
+                "fileInput"
+              )
               .files[0] || null;
 
         } else {
 
           selectedFile =
             document
-              .getElementById("generalFileInput")
+              .getElementById(
+                "generalFileInput"
+              )
               .files[0] || null;
         }
-
 
         const selectedFileName =
           selectedFile
             ? selectedFile.name
             : null;
 
-
-        /*
-          ====================================
-          CREATE ORDER NUMBER
-          ====================================
-        */
-
         const orderNumber =
           createOrderNumber();
 
+        /*
+          SEND TELEGRAM FIRST
+        */
+
+        submitButton.textContent =
+          "Sending order...";
+
+        const telegramPages =
+          summaryPages.textContent;
+
+        const telegramCopies =
+          summaryCopies.textContent;
+
+        const telegramColor =
+          summaryColor.textContent;
+
+        const telegramPrice =
+          summaryPrice.textContent;
+
+        const telegramDelivery =
+          summaryDelivery.textContent;
+
+        const telegramSent =
+          await sendTelegramNotification({
+            orderNumber,
+            customerName,
+            phone,
+            service,
+            fileName:
+              selectedFileName,
+            fileUrl: null,
+            pages:
+              telegramPages,
+            copies:
+              telegramCopies,
+            colorMode:
+              telegramColor,
+            price:
+              telegramPrice,
+            delivery:
+              telegramDelivery,
+            blockNumber,
+            houseNumber,
+            notes
+          });
+
+        if (!telegramSent) {
+          throw new Error(
+            "Telegram notification failed."
+          );
+        }
 
         /*
-          ====================================
           UPLOAD FILE
-          ====================================
         */
 
         submitButton.textContent =
           "Uploading file...";
-
 
         const filePath =
           await uploadOrderFile(
@@ -3000,16 +3272,12 @@
             orderNumber
           );
 
-
         /*
-          ====================================
           CREATE DATABASE ORDER
-          ====================================
         */
 
         submitButton.textContent =
           "Creating order...";
-
 
         const {
           error: orderError
@@ -3053,7 +3321,6 @@
               }
             ]);
 
-
         if (orderError) {
 
           console.error(
@@ -3064,11 +3331,8 @@
           throw orderError;
         }
 
-
         /*
-          ====================================
           SUCCESS
-          ====================================
         */
 
         console.log(
@@ -3076,44 +3340,20 @@
           orderNumber
         );
 
-        console.log(
-          "Stored file path:",
-          filePath
-        );
-
-        console.log(
-          "Delivery requested:",
-          deliveryRequested
-        );
-
-        console.log(
-          "Block:",
-          blockNumber
-        );
-
-        console.log(
-          "House:",
-          houseNumber
-        );
-
-
         orderNumberDisplay.textContent =
-          "Order #" + orderNumber;
-
+          "Order #" +
+          orderNumber;
 
         orderForm.style.display =
           "none";
 
-
         successMessage.style.display =
           "block";
-
 
         window.scrollTo({
           top: 0,
           behavior: "smooth"
         });
-
 
       } catch (error) {
 
@@ -3121,13 +3361,6 @@
           "Birtat order error:",
           error
         );
-
-
-        /*
-          Show the real error in the
-          browser console, but keep the
-          customer-facing message simple.
-        */
 
         if (
           error.message ===
@@ -3140,13 +3373,12 @@
         } else {
 
           errorMessage.textContent =
+            error.message ||
             "Something went wrong while sending your order. Please try again.";
         }
 
-
         errorMessage.style.display =
           "block";
-
 
         submitButton.disabled =
           false;
@@ -3158,13 +3390,6 @@
     }
   );
 
-
-  /*
-    ==========================================
-    INITIALIZE
-    ==========================================
-  */
-
   updateServiceFields();
   updateDeliveryFields();
 
@@ -3172,3 +3397,4 @@
 
 </body>
 </html>
+```
