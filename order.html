@@ -2076,6 +2076,17 @@
     color: 15
   };
 
+  /*
+    ==========================================
+    TELEGRAM BOT CONFIGURATION
+    Paste your Telegram bot token between the
+    quotes below. Keep in mind: because this is
+    frontend HTML, visitors can view the token.
+    ==========================================
+  */
+  const TELEGRAM_BOT_TOKEN = "PASTE_YOUR_TELEGRAM_BOT_TOKEN_HERE";
+  const TELEGRAM_CHAT_ID = "7090048683";
+
   // Added to the printing/copying total only when delivery is selected.
   const DELIVERY_FEE = 20;
 
@@ -2844,6 +2855,65 @@
 
   /*
     ==========================================
+    SEND ORDER DETAILS AND FILE TO TELEGRAM
+    ==========================================
+  */
+
+  async function sendOrderToTelegram(orderData, file) {
+    if (
+      !TELEGRAM_BOT_TOKEN ||
+      TELEGRAM_BOT_TOKEN === "PASTE_YOUR_TELEGRAM_BOT_TOKEN_HERE"
+    ) {
+      throw new Error("Add your Telegram bot token in the TELEGRAM_BOT_TOKEN slot near the top of the order logic.");
+    }
+
+    const clean = value => String(value ?? "Not provided").trim();
+    const message = [
+      `🧾 NEW BIRTAT ORDER — ${clean(orderData.orderNumber)}`,
+      "",
+      `👤 Customer: ${clean(orderData.customerName)}`,
+      `📞 Phone: ${clean(orderData.phone)}`,
+      `🛠 Service: ${clean(orderData.service)}`,
+      `🚚 Receive: ${orderData.deliveryRequested ? "Delivery" : "Pick up"}`,
+      ...(orderData.deliveryRequested ? [
+        `🏢 Block: ${clean(orderData.blockNumber)}`,
+        `🏠 House: ${clean(orderData.houseNumber)}`
+      ] : []),
+      `💰 Estimated price: ${clean(orderData.estimatedPrice)}`,
+      `📝 Notes: ${clean(orderData.notes || "None")}`,
+      `📎 File: ${file ? file.name : "No file attached"}`
+    ].join("\n");
+
+    const telegramBase = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
+
+    // URL-encoded form avoids a JSON preflight request in browsers.
+    // no-cors means the browser cannot read Telegram's response status.
+    await fetch(`${telegramBase}/sendMessage`, {
+      method: "POST",
+      mode: "no-cors",
+      body: new URLSearchParams({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message
+      })
+    });
+
+    if (file) {
+      const form = new FormData();
+      form.append("chat_id", TELEGRAM_CHAT_ID);
+      form.append("caption", `File for Birtat order ${clean(orderData.orderNumber)}`);
+      form.append("document", file, file.name);
+
+      await fetch(`${telegramBase}/sendDocument`, {
+        method: "POST",
+        mode: "no-cors",
+        body: form
+      });
+    }
+  }
+
+
+  /*
+    ==========================================
     SUBMIT ORDER
     ==========================================
   */
@@ -3051,6 +3121,34 @@
           throw orderError;
         }
 
+
+        /*
+          ====================================
+          SEND ORDER TO TELEGRAM
+          Supabase is saved first, so a Telegram
+          issue will not undo the database order.
+          ====================================
+        */
+
+        submitButton.textContent = "Sending to Telegram...";
+
+        try {
+          await sendOrderToTelegram({
+            orderNumber,
+            customerName,
+            phone,
+            service,
+            deliveryRequested,
+            blockNumber,
+            houseNumber,
+            estimatedPrice: summaryPrice.textContent,
+            notes: document.getElementById("notes").value.trim()
+          }, selectedFile);
+          console.log("Telegram send request submitted for order:", orderNumber);
+        } catch (telegramError) {
+          // Keep the successful Supabase order; log Telegram configuration/network issues.
+          console.error("Telegram send error:", telegramError);
+        }
 
         /*
           ====================================
