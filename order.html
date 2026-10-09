@@ -917,6 +917,12 @@
         order: 1;
       }
 
+      .summary-card.mobile-summary {
+        width: 100%;
+        margin: 30px 0;
+        order: initial;
+      }
+
       .service-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -3116,6 +3122,50 @@
     }
   );
 
+
+  /*
+    ==========================================
+    MOBILE SUMMARY POSITION
+    On mobile, place the summary after all order
+    fields and immediately before confirmation
+    and the Send Order button. On desktop, keep
+    it in the right-hand sidebar.
+    ==========================================
+  */
+
+  const orderLayout = document.querySelector(".order-layout");
+  const formCard = document.querySelector(".form-card");
+  const summaryCard = document.querySelector(".summary-card");
+  const confirmCheckbox = document.getElementById("confirm");
+  const confirmSection = confirmCheckbox
+    ? confirmCheckbox.closest(".form-section")
+    : null;
+  const mobileSummaryQuery = window.matchMedia("(max-width: 800px)");
+
+  function positionOrderSummary() {
+    if (!summaryCard || !orderLayout || !formCard || !confirmSection) return;
+
+    if (mobileSummaryQuery.matches) {
+      if (summaryCard.parentElement !== orderForm) {
+        orderForm.insertBefore(summaryCard, confirmSection);
+      } else {
+        orderForm.insertBefore(summaryCard, confirmSection);
+      }
+      summaryCard.classList.add("mobile-summary");
+    } else {
+      if (summaryCard.parentElement !== orderLayout) {
+        orderLayout.insertBefore(summaryCard, formCard.nextSibling);
+      }
+      summaryCard.classList.remove("mobile-summary");
+    }
+  }
+
+  positionOrderSummary();
+  if (mobileSummaryQuery.addEventListener) {
+    mobileSummaryQuery.addEventListener("change", positionOrderSummary);
+  } else {
+    mobileSummaryQuery.addListener(positionOrderSummary);
+  }
 
   /*
     ==========================================
