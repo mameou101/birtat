@@ -1814,6 +1814,7 @@
 
         <p class="estimate-note">
           A4 printing: 10 ETB per B&W page or 15 ETB per color page.
+          If you choose delivery, the 20 ETB delivery fee is included in the total shown above.
           The estimate updates automatically when your file is uploaded.
         </p>
 
@@ -2075,6 +2076,9 @@
     color: 15
   };
 
+  // Added to the printing/copying total only when delivery is selected.
+  const DELIVERY_FEE = 20;
+
 
   /*
     ==========================================
@@ -2253,6 +2257,11 @@
       isDelivery
         ? "Delivery"
         : "Pick up";
+
+    // Recalculate the displayed total whenever pickup/delivery changes.
+    if (typeof updateSummary === "function") {
+      updateSummary();
+    }
   }
 
 
@@ -2361,10 +2370,17 @@
       const pricePerPage =
         prices[color];
 
-      const total =
+      const printingTotal =
         detectedPages *
         pricePerPage *
         copies;
+
+      const deliveryFee =
+        getDeliveryChoice() === "delivery"
+          ? DELIVERY_FEE
+          : 0;
+
+      const total = printingTotal + deliveryFee;
 
       summaryPages.textContent =
         detectedPages;
@@ -2397,9 +2413,16 @@
         copies = 1;
       }
 
-      const price =
+      const copyingTotal =
         prices[color] *
         copies;
+
+      const deliveryFee =
+        getDeliveryChoice() === "delivery"
+          ? DELIVERY_FEE
+          : 0;
+
+      const total = copyingTotal + deliveryFee;
 
       summaryColor.textContent =
         color === "bw"
@@ -2413,7 +2436,7 @@
         copies;
 
       summaryPrice.textContent =
-        price + " ETB";
+        total + " ETB";
 
       return;
     }
