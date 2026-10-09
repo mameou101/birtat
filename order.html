@@ -606,7 +606,6 @@
       .field.full, .delivery-note { grid-column: auto; }
       .help-button { top: 76px; right: 88px; width: 38px; height: 38px; font-size: .88rem; }
 
-      /* Keep the tutorial aligned with the mobile viewport. */
       .tour-card {
         left: 12px !important;
         right: 12px !important;
@@ -830,7 +829,7 @@
                 </div>
                 <div class="delivery-option">
                   <input type="radio" name="delivery" id="delivery-delivery" value="delivery">
-                  <label for="delivery-delivery"><strong>Deliver to me</strong><span>We'll deliver it to your location</span></label>
+                  <label for="delivery-delivery"><strong>Deliver to me</strong><span>We'll deliver it to your location (+20 ETB)</span></label>
                 </div>
               </div>
 
@@ -895,13 +894,14 @@
             <div class="summary-line"><span>Paper</span><strong id="summaryPaper">A4</strong></div>
             <div class="summary-line"><span>Pages</span><strong id="summaryPages">—</strong></div>
             <div class="summary-line"><span>Copies</span><strong id="summaryCopies">1</strong></div>
+            <div class="summary-line"><span>Delivery fee</span><strong id="summaryDeliveryFee">0 ETB</strong></div>
             <div class="summary-line"><span>Receive</span><strong id="summaryDelivery">Pick up</strong></div>
           </div>
           <div class="summary-total">
-            <span>Estimated price</span>
+            <span>Estimated total</span>
             <strong id="summaryPrice">—</strong>
           </div>
-          <p class="estimate-note">A4 printing: 10 ETB per B&W page or 15 ETB per color page. A3 and A5 prices may differ. The final price is confirmed after reviewing your request.</p>
+          <p class="estimate-note">A4 printing: 10 ETB per B&W page or 15 ETB per color page. A3 and A5 prices may differ. Delivery adds 20 ETB. The final price is confirmed after reviewing your request.</p>
         </aside>
       </div>
     </div>
@@ -935,8 +935,8 @@
         { target: "#colorMode", title: "Choose your print type", text: "Choose Black & White or Color, then select the paper size and number of copies.", position: "right", radius: 11 },
         { target: "#customerName", title: "Add your contact details", text: "Enter your name and phone number carefully. We will call this number when your order is ready.", position: "right", radius: 11 },
         { target: "#completionCallInfo", title: "We'll call when it's ready", text: "A completion call is part of every order. Make sure the phone number you entered is correct.", position: "top", radius: 12 },
-        { target: ".delivery-options", title: "Choose pickup or delivery", text: "Choose how you want to receive your order. If you choose delivery, provide your block and house number.", position: "top", radius: 12 },
-        { target: "#summaryCard", title: "Review your order", text: "Check the service, options, quantity, delivery method and estimated price before sending.", position: "left", radius: 16 },
+        { target: ".delivery-options", title: "Choose pickup or delivery", text: "Choose how you want to receive your order. Delivery adds 20 ETB. If you choose delivery, provide your block and house number.", position: "top", radius: 12 },
+        { target: "#summaryCard", title: "Review your order", text: "Check the service, options, quantity, delivery fee and estimated total before sending.", position: "left", radius: 16 },
         { target: "#confirmationSection", title: "Finish your order", text: "Confirm that you understand the estimate and press Send Order. Your request will be sent to Birtat.", position: "top", radius: 12 }
       ];
 
@@ -990,7 +990,6 @@
           card.style.top = "auto";
           card.style.bottom = "calc(12px + env(safe-area-inset-bottom))";
 
-          // Keep the tutorial within the mobile viewport.
           card.style.maxHeight = `${Math.max(
             180,
             Math.min(window.innerHeight * 0.45, 360)
@@ -1150,6 +1149,7 @@
     const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 
     const prices = { bw: 10, color: 15 };
+    const DELIVERY_FEE = 20;
     const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
     const $ = id => document.getElementById(id);
@@ -1175,6 +1175,7 @@
     const summaryPages = $("summaryPages");
     const summaryCopies = $("summaryCopies");
     const summaryDelivery = $("summaryDelivery");
+    const summaryDeliveryFee = $("summaryDeliveryFee");
     const summaryPrice = $("summaryPrice");
 
     let detectedPages = null;
@@ -1211,6 +1212,10 @@
       return `${amount.toLocaleString("en-US")} ETB`;
     }
 
+    function getDeliveryFee() {
+      return getDeliveryChoice() === "delivery" ? DELIVERY_FEE : 0;
+    }
+
     function updateDeliveryFields() {
       const isDelivery = getDeliveryChoice() === "delivery";
 
@@ -1224,6 +1229,8 @@
       }
 
       summaryDelivery.textContent = isDelivery ? "Delivery" : "Pick up";
+
+      updateSummary();
     }
 
     function updateServiceFields() {
@@ -1243,6 +1250,9 @@
 
     function updateSummary() {
       const service = getSelectedService();
+      const deliveryFee = getDeliveryFee();
+
+      summaryDeliveryFee.textContent = formatETB(deliveryFee);
 
       if (service === "Print") {
         const color = $("colorMode").value;
@@ -1255,17 +1265,20 @@
 
         if (detectedPages === null) {
           summaryPages.textContent = "—";
-          summaryPrice.textContent = "—";
+          summaryPrice.textContent = deliveryFee > 0
+            ? `Print estimate + ${formatETB(deliveryFee)}`
+            : "—";
           return;
         }
 
-        // These rates are the existing base rates. Non-A4 prices are confirmed manually.
+        // Existing base rates: non-A4 prices are confirmed manually.
         const basePrice = detectedPages * prices[color] * copies;
+        const totalPrice = basePrice + deliveryFee;
 
         summaryPages.textContent = detectedPages;
         summaryPrice.textContent = paper === "A4"
-          ? formatETB(basePrice)
-          : `${formatETB(basePrice)}*`;
+          ? formatETB(totalPrice)
+          : `${formatETB(totalPrice)}*`;
 
         return;
       }
@@ -1273,13 +1286,15 @@
       if (service === "Copy") {
         const color = $("copyColor").value;
         const copies = getPositiveInteger("copyQuantity");
-        const price = prices[color] * copies;
+        const basePrice = prices[color] * copies;
+        const totalPrice = basePrice + deliveryFee;
 
         summaryColor.textContent = color === "bw" ? "B&W" : "Color";
         summaryPaper.textContent = "Original";
         summaryPages.textContent = "—";
         summaryCopies.textContent = copies;
-        summaryPrice.textContent = formatETB(price);
+        summaryPrice.textContent = formatETB(totalPrice);
+
         return;
       }
 
@@ -1287,7 +1302,9 @@
       summaryPaper.textContent = "—";
       summaryPages.textContent = "—";
       summaryCopies.textContent = "—";
-      summaryPrice.textContent = "Quote";
+      summaryPrice.textContent = deliveryFee > 0
+        ? `Quote + ${formatETB(deliveryFee)}`
+        : "Quote";
     }
 
     async function countPdfPages(file) {
@@ -1403,7 +1420,9 @@
         `Paper size: ${order.paper || "N/A"}`,
         `Pages: ${order.pages ?? "N/A"}`,
         `Copies: ${order.copies ?? "N/A"}`,
-        `Estimated price: ${order.price || "Quote required"}`,
+        `Base estimate: ${order.basePrice || "Quote required"}`,
+        `Delivery fee: ${formatETB(order.deliveryFee || 0)}`,
+        `Estimated total: ${order.price || "Quote required"}`,
         `Delivery method: ${order.deliveryRequested ? "Delivery" : "Pickup"}`,
         `Block: ${order.blockNumber || "N/A"}`,
         `House: ${order.houseNumber || "N/A"}`,
@@ -1478,6 +1497,7 @@
         const customerName = $("customerName").value.trim();
         const phone = $("customerPhone").value.trim();
         const deliveryRequested = getDeliveryChoice() === "delivery";
+        const deliveryFee = deliveryRequested ? DELIVERY_FEE : 0;
         const blockNumber = deliveryRequested ? blockNumberInput.value.trim() : "";
         const houseNumber = deliveryRequested ? houseNumberInput.value.trim() : "";
 
@@ -1504,6 +1524,7 @@
         let paper = null;
         let pages = null;
         let copies = null;
+        let basePrice = "Quote required";
         let price = "Quote required";
 
         if (service === "Print") {
@@ -1514,14 +1535,34 @@
 
           if (detectedPages !== null) {
             const amount = detectedPages * prices[$("colorMode").value] * copies;
-            price = paper === "A4" ? formatETB(amount) : `${formatETB(amount)} base estimate`;
+            basePrice = formatETB(amount);
+
+            const total = amount + deliveryFee;
+
+            price = paper === "A4"
+              ? formatETB(total)
+              : `${formatETB(total)} base estimate`;
           } else {
-            price = "Quote required — page count unavailable";
+            basePrice = "Quote required — page count unavailable";
+
+            price = deliveryFee > 0
+              ? `Quote required + ${formatETB(deliveryFee)} delivery`
+              : "Quote required — page count unavailable";
           }
         } else if (service === "Copy") {
           color = $("copyColor").value === "bw" ? "Black & White" : "Color";
           copies = getPositiveInteger("copyQuantity");
-          price = formatETB(prices[$("copyColor").value] * copies);
+
+          const amount = prices[$("copyColor").value] * copies;
+
+          basePrice = formatETB(amount);
+          price = formatETB(amount + deliveryFee);
+        } else {
+          // Other services need a quote. The delivery fee is still shown separately.
+          basePrice = "Quote required";
+          price = deliveryFee > 0
+            ? `Quote required + ${formatETB(deliveryFee)} delivery`
+            : "Quote required";
         }
 
         const order = {
@@ -1534,6 +1575,8 @@
           paper,
           pages,
           copies,
+          basePrice,
+          deliveryFee,
           price,
           deliveryRequested,
           blockNumber,
