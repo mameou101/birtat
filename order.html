@@ -1,27 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Start an Order — Birtat</title>
-  <meta
-    name="description"
-    content="Place an order with Birtat."
-  />
+  <meta name="description" content="Place an order with Birtat.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg: #f7f7f4;
-      --surface: #ffffff;
-      --text: #111111;
+      --surface: #fff;
+      --text: #111;
       --muted: #707070;
       --border: #e4e4df;
       --soft: #efefeb;
@@ -31,11 +26,7 @@
       --max-width: 1050px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: "DM Sans", sans-serif;
@@ -44,17 +35,8 @@
       line-height: 1.5;
     }
 
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
 
     .container {
       width: min(var(--max-width), calc(100% - 32px));
@@ -66,34 +48,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
     }
 
     .logo {
       font-family: "Space Grotesk", sans-serif;
       font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: -0.04em;
+      letter-spacing: -.04em;
     }
 
-    .back-link {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .back-link { color: var(--muted); font-size: .9rem; }
+    .back-link:hover { color: var(--text); }
 
-    .back-link:hover {
-      color: var(--text);
-    }
-
-    .page-header {
-      padding: 55px 0 40px;
-      max-width: 720px;
-    }
+    .page-header { padding: 55px 0 40px; max-width: 720px; }
 
     .page-header h1 {
       font-family: "Space Grotesk", sans-serif;
       font-size: clamp(2.8rem, 6vw, 4.5rem);
-      line-height: 0.98;
-      letter-spacing: -0.065em;
+      line-height: .98;
+      letter-spacing: -.065em;
     }
 
     .page-header p {
@@ -111,22 +85,15 @@
       padding-bottom: 100px;
     }
 
-    .form-card,
-    .summary-card {
+    .form-card, .summary-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
+      min-width: 0;
     }
 
-    .form-card {
-      padding: 30px;
-    }
-
-    .summary-card {
-      padding: 24px;
-      position: sticky;
-      top: 20px;
-    }
+    .form-card { padding: 30px; }
+    .summary-card { padding: 24px; position: sticky; top: 20px; }
 
     .form-section + .form-section {
       margin-top: 35px;
@@ -134,25 +101,23 @@
       border-top: 1px solid var(--border);
     }
 
-    .section-label {
+    .section-label, .summary-title {
       font-family: "Space Grotesk", sans-serif;
       font-size: 1.15rem;
       font-weight: 600;
-      letter-spacing: -0.025em;
+      letter-spacing: -.025em;
       margin-bottom: 18px;
     }
 
     .service-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 9px;
     }
 
-    .service-option {
-      position: relative;
-    }
+    .service-option, .delivery-option { position: relative; min-width: 0; }
 
-    .service-option input {
+    .service-option input, .delivery-option input {
       position: absolute;
       opacity: 0;
       pointer-events: none;
@@ -167,123 +132,80 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       cursor: pointer;
-      transition: 0.15s ease;
+      transition: .15s ease;
     }
 
-    .service-option label:hover {
-      border-color: #aaa;
-    }
+    .service-option label:hover, .delivery-option label:hover { border-color: #aaa; }
 
-    .service-option input:checked + label {
+    .service-option input:checked + label,
+    .delivery-option input:checked + label {
       background: var(--text);
       color: white;
       border-color: var(--text);
     }
 
-    .service-option strong {
-      font-size: 0.9rem;
+    .service-option input:focus-visible + label,
+    .delivery-option input:focus-visible + label {
+      outline: 3px solid #aaa;
+      outline-offset: 2px;
     }
 
-    .service-option span {
-      margin-top: 3px;
-      font-size: 0.74rem;
-      opacity: 0.65;
-    }
+    .service-option strong { font-size: .9rem; }
+    .service-option span { margin-top: 3px; font-size: .74rem; opacity: .65; }
 
     .field-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 15px;
     }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
+    .field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
 
-    .field.full {
-      grid-column: 1 / -1;
-    }
+    label.field-label { font-size: .8rem; font-weight: 600; }
 
-    label.field-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    input[type="text"],
-    input[type="tel"],
-    input[type="number"],
-    input[type="email"],
-    select,
-    textarea {
+    input[type="text"], input[type="tel"], input[type="number"],
+    input[type="email"], select, textarea {
       width: 100%;
+      min-width: 0;
       border: 1px solid var(--border);
       background: white;
       border-radius: 10px;
       padding: 12px 13px;
       outline: none;
       color: var(--text);
-      transition: 0.15s ease;
+      transition: .15s ease;
     }
 
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
+    textarea { min-height: 110px; resize: vertical; }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: #777;
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 0 0 3px rgba(0,0,0,.04);
     }
 
     .file-drop {
+      display: block;
+      min-width: 0;
       border: 1px dashed #c9c9c3;
       border-radius: 13px;
       padding: 28px 20px;
       text-align: center;
       background: #fafaf8;
       cursor: pointer;
-      transition: 0.15s ease;
+      transition: .15s ease;
+      overflow-wrap: anywhere;
     }
 
-    .file-drop:hover {
-      background: var(--soft);
-      border-color: #999;
-    }
-
-    .file-drop strong {
-      display: block;
-      font-size: 0.95rem;
-    }
-
-    .file-drop span {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 0.78rem;
-    }
-
-    .file-name {
-      margin-top: 10px;
-      color: var(--success);
-      font-size: 0.8rem;
-      font-weight: 600;
-      word-break: break-word;
-    }
-
-    .page-count {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
+    .file-drop:hover { background: var(--soft); border-color: #999; }
+    .file-drop strong { display: block; font-size: .95rem; }
+    .file-drop span { display: block; margin-top: 5px; color: var(--muted); font-size: .78rem; }
+    .file-name { margin-top: 10px; color: var(--success); font-size: .8rem; font-weight: 600; overflow-wrap: anywhere; }
+    .page-count { margin-top: 6px; color: var(--muted); font-size: .75rem; font-weight: 500; }
 
     .option-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 15px;
     }
 
@@ -291,44 +213,25 @@
       border: 1px solid var(--border);
       border-radius: 11px;
       padding: 14px;
+      min-width: 0;
     }
 
-    .option-box label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-bottom: 7px;
-    }
+    .option-box label { display: block; font-size: .78rem; font-weight: 600; margin-bottom: 7px; }
 
     .check-row {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      font-size: 0.8rem;
+      font-size: .8rem;
       color: var(--muted);
     }
 
-    .check-row input {
-      margin-top: 4px;
-      accent-color: black;
-    }
-
-    /* DELIVERY */
+    .check-row input { margin-top: 4px; accent-color: black; flex-shrink: 0; }
 
     .delivery-options {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 10px;
-    }
-
-    .delivery-option {
-      position: relative;
-    }
-
-    .delivery-option input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
     }
 
     .delivery-option label {
@@ -337,39 +240,14 @@
       border: 1px solid var(--border);
       border-radius: 11px;
       cursor: pointer;
-      transition: 0.15s ease;
+      transition: .15s ease;
     }
 
-    .delivery-option label:hover {
-      border-color: #aaa;
-    }
+    .delivery-option strong { display: block; font-size: .88rem; }
+    .delivery-option span { display: block; margin-top: 3px; font-size: .74rem; opacity: .65; }
 
-    .delivery-option input:checked + label {
-      background: var(--text);
-      color: white;
-      border-color: var(--text);
-    }
-
-    .delivery-option strong {
-      display: block;
-      font-size: 0.88rem;
-    }
-
-    .delivery-option span {
-      display: block;
-      margin-top: 3px;
-      font-size: 0.74rem;
-      opacity: 0.65;
-    }
-
-    .delivery-fields {
-      display: none;
-      margin-top: 15px;
-    }
-
-    .delivery-fields.active {
-      display: grid;
-    }
+    .delivery-fields { display: none; margin-top: 15px; }
+    .delivery-fields.active { display: grid; }
 
     .delivery-note {
       grid-column: 1 / -1;
@@ -377,7 +255,7 @@
       padding: 12px 14px;
       background: #f1f1ed;
       border-radius: 10px;
-      font-size: 0.76rem;
+      font-size: .76rem;
       color: var(--muted);
     }
 
@@ -389,25 +267,10 @@
       background: #fafaf8;
     }
 
-    .notification-title {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
+    .notification-title { font-weight: 600; font-size: .85rem; margin-bottom: 8px; }
+    .notification-description { font-size: .76rem; color: var(--muted); line-height: 1.5; }
 
-    .notification-description {
-      font-size: 0.76rem;
-      color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 10px;
-    }
-
-    .summary-title {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-    }
+    .summary-title { margin-bottom: 0; }
 
     .summary-service {
       margin-top: 22px;
@@ -416,58 +279,35 @@
       border-radius: 11px;
     }
 
-    .summary-service small {
-      display: block;
-      color: var(--muted);
-      font-size: 0.7rem;
-    }
+    .summary-service small { display: block; color: var(--muted); font-size: .7rem; }
+    .summary-service strong { display: block; margin-top: 2px; font-size: 1rem; }
 
-    .summary-service strong {
-      display: block;
-      margin-top: 2px;
-      font-size: 1rem;
-    }
-
-    .summary-lines {
-      margin-top: 20px;
-    }
+    .summary-lines { margin-top: 20px; }
 
     .summary-line {
       display: flex;
       justify-content: space-between;
       gap: 20px;
       padding: 9px 0;
-      font-size: 0.82rem;
+      font-size: .82rem;
       border-bottom: 1px solid var(--border);
     }
 
-    .summary-line span:first-child {
-      color: var(--muted);
-    }
+    .summary-line span:first-child { color: var(--muted); }
+    .summary-line strong { text-align: right; overflow-wrap: anywhere; }
 
     .summary-total {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       margin-top: 18px;
     }
 
-    .summary-total span {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
+    .summary-total span { color: var(--muted); font-size: .85rem; }
+    .summary-total strong { font-family: "Space Grotesk", sans-serif; font-size: 1.45rem; text-align: right; }
 
-    .summary-total strong {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 1.45rem;
-    }
-
-    .estimate-note {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 0.7rem;
-      line-height: 1.5;
-    }
+    .estimate-note { margin-top: 12px; color: var(--muted); font-size: .7rem; line-height: 1.5; }
 
     .submit-button {
       width: 100%;
@@ -479,40 +319,17 @@
       font-weight: 600;
       cursor: pointer;
       margin-top: 22px;
-      transition: 0.2s ease;
+      transition: .2s ease;
     }
 
-    .submit-button:hover {
-      transform: translateY(-1px);
-      opacity: 0.92;
-    }
+    .submit-button:hover { transform: translateY(-1px); opacity: .92; }
+    .submit-button:disabled { cursor: wait; opacity: .6; transform: none; }
 
-    .submit-button:disabled {
-      cursor: wait;
-      opacity: 0.6;
-      transform: none;
-    }
+    .privacy-note { margin-top: 12px; text-align: center; color: var(--muted); font-size: .7rem; }
+    .service-fields { display: none; }
+    .service-fields.active { display: block; }
 
-    .privacy-note {
-      margin-top: 12px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.7rem;
-    }
-
-    .service-fields {
-      display: none;
-    }
-
-    .service-fields.active {
-      display: block;
-    }
-
-    .success-message {
-      display: none;
-      text-align: center;
-      padding: 60px 20px;
-    }
+    .success-message { display: none; text-align: center; padding: 60px 20px; }
 
     .success-icon {
       width: 58px;
@@ -530,14 +347,10 @@
     .success-message h2 {
       font-family: "Space Grotesk", sans-serif;
       font-size: 2rem;
-      letter-spacing: -0.04em;
+      letter-spacing: -.04em;
     }
 
-    .success-message p {
-      margin: 12px auto 0;
-      color: var(--muted);
-      max-width: 470px;
-    }
+    .success-message p { margin: 12px auto 0; color: var(--muted); max-width: 470px; }
 
     .order-number-display {
       display: inline-block;
@@ -556,17 +369,15 @@
       border-radius: 10px;
       background: #fff0f0;
       color: var(--danger);
-      font-size: 0.8rem;
+      font-size: .8rem;
+      overflow-wrap: anywhere;
     }
 
-    /* ==========================================
-       BIRTAT HELP BUTTON
-       ========================================== */
-
+    /* Floating help button */
     .help-button {
       position: fixed;
       top: 90px;
-      right: 112px;
+      right: max(24px, calc((100vw - var(--max-width)) / 2 + 4px));
       width: 39px;
       height: 39px;
       border: 1px solid rgba(255,255,255,.18);
@@ -585,23 +396,11 @@
       transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
 
-    .help-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(0,0,0,.22);
-      background: #222;
-    }
-
+    .help-button:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,.22); background: #222; }
     .help-button:active { transform: scale(.95); }
+    .help-button:focus-visible { outline: 3px solid rgba(0,0,0,.16); outline-offset: 3px; }
 
-    .help-button:focus-visible {
-      outline: 3px solid rgba(0,0,0,.16);
-      outline-offset: 3px;
-    }
-
-    /* ==========================================
-       INTERACTIVE TUTORIAL
-       ========================================== */
-
+    /* Interactive tutorial */
     .tour-root {
       position: fixed;
       inset: 0;
@@ -612,17 +411,8 @@
       transition: opacity .28s ease, visibility .28s ease;
     }
 
-    .tour-root.is-open {
-      pointer-events: auto;
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .tour-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(8,8,8,.60);
-    }
+    .tour-root.is-open { pointer-events: auto; visibility: visible; opacity: 1; }
+    .tour-backdrop { position: absolute; inset: 0; background: rgba(8,8,8,.60); }
 
     .tour-spotlight {
       position: fixed;
@@ -636,7 +426,7 @@
       box-shadow: 0 0 0 9999px rgba(8,8,8,.60), 0 0 0 6px rgba(255,255,255,.12), 0 12px 38px rgba(0,0,0,.35);
       pointer-events: none;
       opacity: 0;
-      transition: left .38s cubic-bezier(.22,1,.36,1), top .38s cubic-bezier(.22,1,.36,1), width .38s cubic-bezier(.22,1,.36,1), height .38s cubic-bezier(.22,1,.36,1), border-radius .25s ease, opacity .2s ease;
+      transition: left .38s cubic-bezier(.22,1,.36,1), top .38s cubic-bezier(.22,1,.36,1), width .38s cubic-bezier(.22,1,.36,1), height .38s cubic-bezier(.22,1,.36,1), opacity .2s ease;
     }
 
     .tour-spotlight.visible { opacity: 1; }
@@ -652,9 +442,7 @@
       pointer-events: none;
     }
 
-    .tour-pulse.active {
-      animation: tourPulse 1.7s ease-out infinite;
-    }
+    .tour-pulse.active { animation: tourPulse 1.7s ease-out infinite; }
 
     @keyframes tourPulse {
       0% { box-shadow: 0 0 0 0 rgba(255,255,255,.5); opacity: 1; }
@@ -665,7 +453,7 @@
     .tour-card {
       position: fixed;
       width: min(390px, calc(100vw - 32px));
-      background: #ffffff;
+      background: #fff;
       color: #111;
       border: 1px solid rgba(255,255,255,.8);
       border-radius: 20px;
@@ -677,127 +465,28 @@
       pointer-events: none;
     }
 
-    .tour-card.visible {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .tour-card.visible { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 
-    .tour-kicker {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 12px;
-    }
-
-    .tour-step {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #777;
-    }
-
-    .tour-skip {
-      border: 0;
-      background: transparent;
-      color: #888;
-      font-size: .75rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 4px 0;
-    }
-
+    .tour-kicker { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+    .tour-step { font-family: "Space Grotesk", sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #777; }
+    .tour-skip { border: 0; background: transparent; color: #888; font-size: .75rem; font-weight: 600; cursor: pointer; padding: 4px 0; }
     .tour-skip:hover { color: #111; }
+    .tour-card h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.35rem; line-height: 1.12; letter-spacing: -.04em; }
+    .tour-card p { margin-top: 8px; color: #686868; font-size: .86rem; line-height: 1.6; }
+    .tour-progress { height: 4px; margin-top: 18px; background: #ededeb; border-radius: 99px; overflow: hidden; }
+    .tour-progress span { display: block; height: 100%; width: 0; background: #111; border-radius: inherit; transition: width .35s ease; }
+    .tour-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 18px; }
 
-    .tour-card h2 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 1.35rem;
-      line-height: 1.12;
-      letter-spacing: -.04em;
-    }
-
-    .tour-card p {
-      margin-top: 8px;
-      color: #686868;
-      font-size: .86rem;
-      line-height: 1.6;
-    }
-
-    .tour-progress {
-      height: 4px;
-      margin-top: 18px;
-      background: #ededeb;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .tour-progress span {
-      display: block;
-      height: 100%;
-      width: 0;
-      background: #111;
-      border-radius: inherit;
-      transition: width .35s ease;
-    }
-
-    .tour-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .tour-back,
-    .tour-next {
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: .8rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .18s ease;
-    }
-
-    .tour-back {
-      border: 1px solid #e1e1dd;
-      background: #fff;
-      color: #555;
-    }
-
+    .tour-back, .tour-next { border-radius: 10px; padding: 10px 14px; font-size: .8rem; font-weight: 700; cursor: pointer; transition: .18s ease; }
+    .tour-back { border: 1px solid #e1e1dd; background: #fff; color: #555; }
     .tour-back:hover:not(:disabled) { background: #f4f4f1; color: #111; }
     .tour-back:disabled { opacity: .35; cursor: default; }
-
-    .tour-next {
-      border: 1px solid #111;
-      background: #111;
-      color: #fff;
-      min-width: 86px;
-    }
-
+    .tour-next { border: 1px solid #111; background: #111; color: #fff; min-width: 86px; }
     .tour-next:hover { background: #282828; transform: translateY(-1px); }
 
-    .tour-dots {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .tour-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #d5d5d1;
-      transition: .2s ease;
-    }
-
-    .tour-dot.active {
-      width: 17px;
-      border-radius: 99px;
-      background: #111;
-    }
+    .tour-dots { display: flex; align-items: center; gap: 5px; }
+    .tour-dot { width: 5px; height: 5px; border-radius: 50%; background: #d5d5d1; transition: .2s ease; }
+    .tour-dot.active { width: 17px; border-radius: 99px; background: #111; }
 
     .tour-card[data-position="top"]::after,
     .tour-card[data-position="bottom"]::after,
@@ -807,9 +496,9 @@
       position: absolute;
       width: 12px;
       height: 12px;
-      background: rgba(255,255,255,.97);
-      border-right: 1px solid rgba(255,255,255,.8);
-      border-bottom: 1px solid rgba(255,255,255,.8);
+      background: #fff;
+      border-right: 1px solid #eee;
+      border-bottom: 1px solid #eee;
       transform: rotate(45deg);
     }
 
@@ -834,17 +523,8 @@
       z-index: 3;
     }
 
-    .tour-root.is-welcome .tour-welcome {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translate(-50%,-50%) scale(1);
-    }
-
-    .tour-root.is-welcome .tour-card,
-    .tour-root.is-welcome .tour-spotlight {
-      opacity: 0 !important;
-      pointer-events: none;
-    }
+    .tour-root.is-welcome .tour-welcome { opacity: 1; pointer-events: auto; transform: translate(-50%,-50%) scale(1); }
+    .tour-root.is-welcome .tour-card, .tour-root.is-welcome .tour-spotlight { opacity: 0 !important; pointer-events: none; }
 
     .tour-welcome-mark {
       width: 46px;
@@ -860,72 +540,20 @@
       margin-bottom: 22px;
     }
 
-    .tour-welcome h2 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.35rem);
-      line-height: 1;
-      letter-spacing: -.055em;
-    }
-
-    .tour-welcome p {
-      margin-top: 12px;
-      color: #6d6d6d;
-      font-size: .9rem;
-      line-height: 1.65;
-    }
-
-    .tour-welcome-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 24px;
-    }
-
-    .tour-start {
-      flex: 1;
-      border: 0;
-      background: #111;
-      color: #fff;
-      padding: 13px 16px;
-      border-radius: 11px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tour-later {
-      border: 1px solid #e1e1dd;
-      background: #fff;
-      color: #666;
-      padding: 13px 16px;
-      border-radius: 11px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
+    .tour-welcome h2 { font-family: "Space Grotesk", sans-serif; font-size: clamp(1.8rem, 5vw, 2.35rem); line-height: 1; letter-spacing: -.055em; }
+    .tour-welcome p { margin-top: 12px; color: #6d6d6d; font-size: .9rem; line-height: 1.65; }
+    .tour-welcome-actions { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
+    .tour-start { flex: 1; border: 0; background: #111; color: #fff; padding: 13px 16px; border-radius: 11px; font-weight: 700; cursor: pointer; }
+    .tour-later { border: 1px solid #e1e1dd; background: #fff; color: #666; padding: 13px 16px; border-radius: 11px; font-weight: 600; cursor: pointer; }
     .tour-start:hover { background: #282828; }
     .tour-later:hover { background: #f6f6f3; color: #111; }
-
     body.tour-lock { overflow: hidden; }
 
     @media (max-width: 800px) {
-      .order-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .summary-card {
-        position: static;
-        order: 1;
-      }
-
-      .summary-card.mobile-summary {
-        width: 100%;
-        margin: 30px 0;
-        order: initial;
-      }
-
-      .service-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .order-layout { grid-template-columns: 1fr; }
+      .summary-card { position: static; }
+      .summary-card.mobile-summary { width: 100%; margin: 30px 0; }
+      .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 600px) {
@@ -967,2216 +595,971 @@
     }
 
     @media (max-width: 520px) {
-      .container {
-        width: min(var(--max-width), calc(100% - 24px));
-      }
+      .container { width: min(var(--max-width), calc(100% - 24px)); }
+      nav { height: 66px; }
+      .page-header { padding: 40px 0 28px; }
+      .page-header h1 { font-size: 3rem; }
+      .form-card { padding: 20px; }
+      .field-grid, .option-row, .delivery-options { grid-template-columns: minmax(0, 1fr); }
+      .field.full, .delivery-note { grid-column: auto; }
+      .help-button { top: 76px; right: 88px; width: 38px; height: 38px; font-size: .88rem; }
+      .tour-card { width: min(390px, calc(100vw - 24px)); padding: 18px; border-radius: 17px; }
+      .tour-welcome { padding: 24px; border-radius: 20px; }
+    }
 
-      nav {
-        height: 66px;
-      }
-
-      .page-header {
-        padding: 40px 0 28px;
-      }
-
-      .page-header h1 {
-        font-size: 3rem;
-      }
-
-      .form-card {
-        padding: 20px;
-      }
-
-      .field-grid,
-      .option-row,
-      .delivery-options {
-        grid-template-columns: 1fr;
-      }
-
-      .field.full {
-        grid-column: auto;
-      }
-
-      .service-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .delivery-note {
-        grid-column: auto;
-      }
-
-      .help-button {
-        top: 76px;
-        right: 88px;
-        width: 38px;
-        height: 38px;
-        font-size: .88rem;
-      }
-
-      .tour-card {
-        width: min(390px, calc(100vw - 24px));
-        padding: 18px;
-        border-radius: 17px;
-      }
-
-      .tour-welcome {
-        padding: 24px;
-        border-radius: 20px;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 
 <body>
+  <button type="button" class="help-button" id="helpButton" aria-label="How to use Birtat">?</button>
 
-<!-- FLOATING HELP -->
+  <div class="tour-root" id="tourRoot" aria-hidden="true">
+    <div class="tour-backdrop" id="tourBackdrop"></div>
+    <div class="tour-spotlight" id="tourSpotlight"></div>
+    <div class="tour-pulse" id="tourPulse"></div>
 
-<button
-  type="button"
-  class="help-button"
-  id="helpButton"
-  aria-label="How to use Birtat"
->
-  ?
-</button>
+    <div class="tour-welcome" id="tourWelcome">
+      <div class="tour-welcome-mark">?</div>
+      <h2>Let’s get your order started.</h2>
+      <p>New to Birtat? This quick guide walks you through the order form step by step — from choosing a service to reviewing your order and sending it to us.</p>
+      <div class="tour-welcome-actions">
+        <button type="button" class="tour-later" id="tourLater">Maybe later</button>
+        <button type="button" class="tour-start" id="tourStart">Show me how →</button>
+      </div>
+    </div>
 
-<!-- INTERACTIVE TUTORIAL -->
-<div class="tour-root" id="tourRoot" aria-hidden="true">
-  <div class="tour-backdrop" id="tourBackdrop"></div>
-  <div class="tour-spotlight" id="tourSpotlight"></div>
-  <div class="tour-pulse" id="tourPulse"></div>
-
-  <div class="tour-welcome" id="tourWelcome">
-    <div class="tour-welcome-mark">?</div>
-    <h2>Let’s get your order started.</h2>
-    <p>
-      New to Birtat? This quick guide walks you through the order form step by step —
-      from choosing a service to reviewing your order and sending it to us.
-    </p>
-    <div class="tour-welcome-actions">
-      <button type="button" class="tour-later" id="tourLater">Maybe later</button>
-      <button type="button" class="tour-start" id="tourStart">Show me how →</button>
+    <div class="tour-card" id="tourCard" role="dialog" aria-live="polite">
+      <div class="tour-kicker">
+        <span class="tour-step" id="tourStep">Step 1 of 9</span>
+        <button type="button" class="tour-skip" id="tourSkip">Skip tour</button>
+      </div>
+      <h2 id="tourTitle"></h2>
+      <p id="tourText"></p>
+      <div class="tour-progress"><span id="tourProgress"></span></div>
+      <div class="tour-actions">
+        <button type="button" class="tour-back" id="tourBack">← Back</button>
+        <div class="tour-dots" id="tourDots"></div>
+        <button type="button" class="tour-next" id="tourNext">Next →</button>
+      </div>
     </div>
   </div>
 
-  <div class="tour-card" id="tourCard" role="dialog" aria-live="polite">
-    <div class="tour-kicker">
-      <span class="tour-step" id="tourStep">Step 1 of 6</span>
-      <button type="button" class="tour-skip" id="tourSkip">Skip tour</button>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="index.html" class="logo">BIRTAT</a>
+        <a href="index.html" class="back-link">← Back to home</a>
+      </nav>
     </div>
-    <h2 id="tourTitle"></h2>
-    <p id="tourText"></p>
-    <div class="tour-progress"><span id="tourProgress"></span></div>
-    <div class="tour-actions">
-      <button type="button" class="tour-back" id="tourBack">← Back</button>
-      <div class="tour-dots" id="tourDots"></div>
-      <button type="button" class="tour-next" id="tourNext">Next →</button>
-    </div>
-  </div>
-</div>
-
-<header>
-  <div class="container">
-    <nav>
-      <a href="index.html" class="logo">BIRTAT</a>
-      <a href="index.html" class="back-link">← Back to home</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-
-  <div class="container">
-
-    <div class="page-header">
-      <h1>Start an order.</h1>
-
-      <p>
-        Tell us what you need. Add your file if necessary,
-        choose your options, and we'll prepare everything for you.
-      </p>
-    </div>
-
-    <div class="order-layout">
-
-      <!-- FORM -->
-
-      <div class="form-card">
-
-        <form id="orderForm">
-
-          <!-- SERVICE -->
-
-          <div class="form-section">
-
-            <div class="section-label">
-              What do you need?
-            </div>
-
-            <div class="service-grid">
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-print"
-                  value="Print"
-                  checked
-                >
-
-                <label for="service-print">
-                  <strong>Print</strong>
-                  <span>Upload a file</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-copy"
-                  value="Copy"
-                >
-
-                <label for="service-copy">
-                  <strong>Copy</strong>
-                  <span>Bring original</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-scan"
-                  value="Scan"
-                >
-
-                <label for="service-scan">
-                  <strong>Scan</strong>
-                  <span>Paper → PDF</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-typing"
-                  value="Typing"
-                >
-
-                <label for="service-typing">
-                  <strong>Typing</strong>
-                  <span>Documents</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-cv"
-                  value="CV & Documents"
-                >
-
-                <label for="service-cv">
-                  <strong>CV & Docs</strong>
-                  <span>Create / format</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-research"
-                  value="Research"
-                >
-
-                <label for="service-research">
-                  <strong>Research</strong>
-                  <span>Research help</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-design"
-                  value="Design"
-                >
-
-                <label for="service-design">
-                  <strong>Design</strong>
-                  <span>Flyers & more</span>
-                </label>
-              </div>
-
-              <div class="service-option">
-                <input
-                  type="radio"
-                  name="service"
-                  id="service-online"
-                  value="Online Help"
-                >
-
-                <label for="service-online">
-                  <strong>Online Help</strong>
-                  <span>Digital assistance</span>
-                </label>
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- PRINT -->
-
-          <div
-            class="form-section service-fields active"
-            id="printFields"
-            data-service="Print"
-          >
-
-            <div class="section-label">
-              Printing details
-            </div>
-
-            <div class="field">
-
-              <label class="field-label">
-                Your file
-              </label>
-
-              <label
-                class="file-drop"
-                for="fileInput"
-              >
-
-                <strong>
-                  Click to upload your file
-                </strong>
-
-                <span>
-                  PDF, Word, JPG, PNG and other common formats
-                </span>
-
-                <div
-                  class="file-name"
-                  id="fileName"
-                >
-                  No file selected
-                </div>
-
-                <div
-                  class="page-count"
-                  id="pageCount"
-                >
-                  Upload a PDF to automatically count its pages
-                </div>
-
-              </label>
-
-              <input
-                type="file"
-                id="fileInput"
-                hidden
-                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.ppt,.pptx,.txt"
-              >
-
-            </div>
-
-            <div
-              class="option-row"
-              style="margin-top: 15px;"
-            >
-<div class="option-box">
-
-                <label for="colorMode">
-                  Print type
-                </label>
-
-                <select id="colorMode">
-
-                  <option value="bw">
-                    Black & White
-                  </option>
-
-                  <option value="color">
-                    Color
-                  </option>
-
-                </select>
-
-              </div>
-
-            </div>
-
-            <div
-              class="field"
-              style="margin-top: 15px;"
-            >
-
-              <label
-                class="field-label"
-                for="copies"
-              >
-                Number of copies
-              </label>
-
-              <input
-                type="number"
-                id="copies"
-                min="1"
-                value="1"
-              >
-
-            </div>
-
-          </div>
-
-          <!-- COPY -->
-
-          <div
-            class="form-section service-fields"
-            id="copyFields"
-            data-service="Copy"
-          >
-
-            <div class="section-label">
-              Copy details
-            </div>
-
-            <div class="option-row">
-<div class="option-box">
-
-                <label for="copyColor">
-                  Copy type
-                </label>
-
-                <select id="copyColor">
-
-                  <option value="bw">
-                    Black & White
-                  </option>
-
-                  <option value="color">
-                    Color
-                  </option>
-
-                </select>
-
-              </div>
-
-            </div>
-
-            <div
-              class="field"
-              style="margin-top: 15px;"
-            >
-
-              <label
-                class="field-label"
-                for="copyQuantity"
-              >
-                Number of copies
-              </label>
-
-              <input
-                type="number"
-                id="copyQuantity"
-                min="1"
-                value="1"
-              >
-
-            </div>
-
-            <div
-              style="
-                margin-top:15px;
-                padding:14px;
-                background:#f1f1ed;
-                border-radius:10px;
-                font-size:.8rem;
-                color:#666;
-              "
-            >
-              Bring the original document to the Birtat
-              location. We'll handle the copying for you.
-            </div>
-
-          </div>
-
-          <!-- OTHER SERVICES -->
-
-          <div
-            class="form-section service-fields"
-            id="generalFields"
-            data-service="General"
-          >
-
-            <div class="section-label">
-              Tell us what you need
-            </div>
-
-            <div class="field">
-
-              <label
-                class="field-label"
-                for="requestDetails"
-              >
-                Details
-              </label>
-
-              <textarea
-                id="requestDetails"
-                placeholder="Describe what you need..."
-              ></textarea>
-
-            </div>
-
-            <div
-              class="field"
-              style="margin-top:15px;"
-            >
-
-              <label class="field-label">
-                Optional file
-              </label>
-
-              <label
-                class="file-drop"
-                for="generalFileInput"
-              >
-
-                <strong>
-                  Upload a file
-                </strong>
-
-                <span>
-                  Optional
-                </span>
-
-                <div
-                  class="file-name"
-                  id="generalFileName"
-                >
-                  No file selected
-                </div>
-
-              </label>
-
-              <input
-                type="file"
-                id="generalFileInput"
-                hidden
-              >
-
-            </div>
-
-          </div>
-
-          <!-- CUSTOMER -->
-
-          <div class="form-section">
-
-            <div class="section-label">
-              Your information
-            </div>
-
-            <div class="field-grid">
-
-              <div class="field">
-
-                <label
-                  class="field-label"
-                  for="customerName"
-                >
-                  Name
-                </label>
-
-                <input
-                  type="text"
-                  id="customerName"
-                  placeholder="Your name"
-                  required
-                >
-
-              </div>
-
-              <div class="field">
-
-                <label
-                  class="field-label"
-                  for="customerPhone"
-                >
-                  Phone / Telegram
-                </label>
-
-                <input
-                  type="tel"
-                  id="customerPhone"
-                  placeholder="09..."
-                  required
-                >
-
-              </div>
-
-              <div class="field full">
-
-                <label
-                  class="field-label"
-                  for="notes"
-                >
-                  Additional notes
-                </label>
-
-                <textarea
-                  id="notes"
-                  placeholder="Anything we should know?"
-                ></textarea>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- DELIVERY -->
-
-          <div class="form-section">
-
-            <div class="section-label">
-              How would you like to receive it?
-            </div>
-
-            <div class="delivery-options">
-
-              <div class="delivery-option">
-
-                <input
-                  type="radio"
-                  name="delivery"
-                  id="delivery-pickup"
-                  value="pickup"
-                  checked
-                >
-
-                <label for="delivery-pickup">
-
-                  <strong>
-                    Pick up
-                  </strong>
-
-                  <span>
-                    Collect your order from Birtat
-                  </span>
-
-                </label>
-
-              </div>
-
-              <div class="delivery-option">
-
-                <input
-                  type="radio"
-                  name="delivery"
-                  id="delivery-delivery"
-                  value="delivery"
-                >
-
-                <label for="delivery-delivery">
-
-                  <strong>
-                    Deliver to me
-                  </strong>
-
-                  <span>
-                    We'll deliver it to your location
-                  </span>
-
-                </label>
-
-              </div>
-
-            </div>
-
-            <div
-              class="field-grid delivery-fields"
-              id="deliveryFields"
-            >
-
-              <div class="field">
-
-                <label
-                  class="field-label"
-                  for="blockNumber"
-                >
-                  Block number
-                </label>
-
-                <input
-                  type="text"
-                  id="blockNumber"
-                  placeholder="e.g. Block 12"
-                >
-
-              </div>
-
-              <div class="field">
-
-                <label
-                  class="field-label"
-                  for="houseNumber"
-                >
-                  House number
-                </label>
-
-                <input
-                  type="text"
-                  id="houseNumber"
-                  placeholder="e.g. House 45"
-                >
-
-              </div>
-
-              <div class="delivery-note">
-                Delivery is currently available within the condominium.
-                Please provide your block and house number so we can
-                locate you.
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- COMPLETION CALL: REQUIRED -->
-
-          <div class="form-section">
-
-            <div class="section-label">
-              When your order is ready
-            </div>
-
-            <div class="notification-box" id="completionCallInfo">
-
-              <div class="notification-title">
-                📞 We'll call you when it's done
-              </div>
-
-              <div class="notification-description">
-                A phone call is part of every order. Make sure your
-                phone number is correct so we can tell you when your
-                order is ready for pickup or delivery.
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- CONFIRM -->
-
-          <div class="form-section">
-
-            <label class="check-row">
-
-              <input
-                type="checkbox"
-                id="confirm"
-                required
-              >
-
-              <span>
-                I understand that the displayed price is an estimate
-                and the final price may change depending on the
-                actual document or requested service.
-              </span>
-
-            </label>
-
-            <button
-              type="submit"
-              class="submit-button"
-            >
-              Send Order →
-            </button>
-
-            <div
-              class="error-message"
-              id="errorMessage"
-            >
-              Something went wrong while sending your order.
-              Please try again.
-            </div>
-
-            <div class="privacy-note">
-              Your information is only used to process your order.
-            </div>
-
-          </div>
-
-        </form>
-
-        <!-- SUCCESS -->
-
-        <div
-          class="success-message"
-          id="successMessage"
-        >
-
-          <div class="success-icon">
-            ✓
-          </div>
-
-          <h2>
-            Order received.
-          </h2>
-
-          <p>
-            We've received your request. We'll prepare your order and call you when it's ready.
-          </p>
-
-          <div
-            class="order-number-display"
-            id="orderNumberDisplay"
-          >
-            Order #—
-          </div>
-
-          <button
-            class="submit-button"
-            onclick="location.href='index.html'"
-          >
-            Back to Birtat
-          </button>
-
-        </div>
-
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Start an order.</h1>
+        <p>Tell us what you need. Add your file if necessary, choose your options, and we'll prepare everything for you.</p>
       </div>
 
-      <!-- SUMMARY -->
+      <div class="order-layout">
+        <div class="form-card">
+          <form id="orderForm">
+            <div class="form-section">
+              <div class="section-label">What do you need?</div>
+              <div class="service-grid">
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-print" value="Print" checked>
+                  <label for="service-print"><strong>Print</strong><span>Upload a file</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-copy" value="Copy">
+                  <label for="service-copy"><strong>Copy</strong><span>Bring original</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-scan" value="Scan">
+                  <label for="service-scan"><strong>Scan</strong><span>Paper → PDF</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-typing" value="Typing">
+                  <label for="service-typing"><strong>Typing</strong><span>Documents</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-cv" value="CV & Documents">
+                  <label for="service-cv"><strong>CV & Docs</strong><span>Create / format</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-research" value="Research">
+                  <label for="service-research"><strong>Research</strong><span>Research help</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-design" value="Design">
+                  <label for="service-design"><strong>Design</strong><span>Flyers & more</span></label>
+                </div>
+                <div class="service-option">
+                  <input type="radio" name="service" id="service-online" value="Online Help">
+                  <label for="service-online"><strong>Online Help</strong><span>Digital assistance</span></label>
+                </div>
+              </div>
+            </div>
 
-      <aside class="summary-card">
+            <!-- PRINT OPTIONS -->
+            <div class="form-section service-fields active" id="printFields" data-service="Print">
+              <div class="section-label">Printing details</div>
+              <div class="field">
+                <label class="field-label" for="fileInput">Your file</label>
+                <label class="file-drop" for="fileInput">
+                  <strong>Click to upload your file</strong>
+                  <span>PDF, Word, JPG, PNG and other common formats</span>
+                  <div class="file-name" id="fileName">No file selected</div>
+                  <div class="page-count" id="pageCount">Upload a PDF to automatically count its pages</div>
+                </label>
+                <input type="file" id="fileInput" hidden accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.ppt,.pptx,.txt">
+              </div>
 
-        <div class="summary-title">
-          Order summary
+              <div class="option-row" style="margin-top:15px;">
+                <div class="option-box">
+                  <label for="colorMode">Print type</label>
+                  <select id="colorMode">
+                    <option value="bw">Black & White</option>
+                    <option value="color">Color</option>
+                  </select>
+                </div>
+                <div class="option-box">
+                  <label for="paperSize">Paper size</label>
+                  <select id="paperSize">
+                    <option value="A4">A4</option>
+                    <option value="A3">A3</option>
+                    <option value="A5">A5</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field" style="margin-top:15px;">
+                <label class="field-label" for="copies">Number of copies</label>
+                <input type="number" id="copies" min="1" step="1" value="1" inputmode="numeric" required>
+              </div>
+            </div>
+
+            <!-- COPY OPTIONS -->
+            <div class="form-section service-fields" id="copyFields" data-service="Copy">
+              <div class="section-label">Copy details</div>
+              <div class="option-row">
+                <div class="option-box">
+                  <label for="copyColor">Copy type</label>
+                  <select id="copyColor">
+                    <option value="bw">Black & White</option>
+                    <option value="color">Color</option>
+                  </select>
+                </div>
+                <div class="option-box">
+                  <label for="copyQuantity">Number of copies</label>
+                  <input type="number" id="copyQuantity" min="1" step="1" value="1" inputmode="numeric">
+                </div>
+              </div>
+              <div style="margin-top:15px;padding:14px;background:#f1f1ed;border-radius:10px;font-size:.8rem;color:#666;">
+                Bring the original document to the Birtat location. We'll handle the copying for you.
+              </div>
+            </div>
+
+            <!-- OTHER SERVICES -->
+            <div class="form-section service-fields" id="generalFields" data-service="General">
+              <div class="section-label">Tell us what you need</div>
+              <div class="field">
+                <label class="field-label" for="requestDetails">Details</label>
+                <textarea id="requestDetails" placeholder="Describe what you need..."></textarea>
+              </div>
+              <div class="field" style="margin-top:15px;">
+                <label class="field-label" for="generalFileInput">Optional file</label>
+                <label class="file-drop" for="generalFileInput">
+                  <strong>Upload a file</strong>
+                  <span>Optional</span>
+                  <div class="file-name" id="generalFileName">No file selected</div>
+                </label>
+                <input type="file" id="generalFileInput" hidden>
+              </div>
+            </div>
+
+            <!-- CUSTOMER -->
+            <div class="form-section">
+              <div class="section-label">Your information</div>
+              <div class="field-grid">
+                <div class="field">
+                  <label class="field-label" for="customerName">Name</label>
+                  <input type="text" id="customerName" placeholder="Your name" autocomplete="name" required>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="customerPhone">Phone number</label>
+                  <input type="tel" id="customerPhone" placeholder="09..." autocomplete="tel" required>
+                </div>
+                <div class="field full">
+                  <label class="field-label" for="notes">Additional notes</label>
+                  <textarea id="notes" placeholder="Anything we should know?"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- DELIVERY -->
+            <div class="form-section">
+              <div class="section-label">How would you like to receive it?</div>
+              <div class="delivery-options">
+                <div class="delivery-option">
+                  <input type="radio" name="delivery" id="delivery-pickup" value="pickup" checked>
+                  <label for="delivery-pickup"><strong>Pick up</strong><span>Collect your order from Birtat</span></label>
+                </div>
+                <div class="delivery-option">
+                  <input type="radio" name="delivery" id="delivery-delivery" value="delivery">
+                  <label for="delivery-delivery"><strong>Deliver to me</strong><span>We'll deliver it to your location</span></label>
+                </div>
+              </div>
+
+              <div class="field-grid delivery-fields" id="deliveryFields">
+                <div class="field">
+                  <label class="field-label" for="blockNumber">Block number</label>
+                  <input type="text" id="blockNumber" placeholder="e.g. Block 12">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="houseNumber">House number</label>
+                  <input type="text" id="houseNumber" placeholder="e.g. House 45">
+                </div>
+                <div class="delivery-note">Delivery is currently available within the condominium. Please provide your block and house number so we can locate you.</div>
+              </div>
+            </div>
+
+            <!-- COMPLETION CALL -->
+            <div class="form-section">
+              <div class="section-label">When your order is ready</div>
+              <div class="notification-box" id="completionCallInfo">
+                <div class="notification-title">We'll call you when it's done</div>
+                <div class="notification-description">A phone call is part of every order. Make sure your phone number is correct so we can tell you when your order is ready for pickup or delivery.</div>
+              </div>
+            </div>
+
+            <!-- MOBILE SUMMARY IS MOVED HERE BY JAVASCRIPT -->
+
+            <!-- CONFIRMATION AND SUBMIT -->
+            <div class="form-section" id="confirmationSection">
+              <label class="check-row">
+                <input type="checkbox" id="confirm" required>
+                <span>I understand that the displayed price is an estimate and the final price may change depending on the actual document or requested service.</span>
+              </label>
+
+              <button type="submit" class="submit-button" id="submitButton">Send Order →</button>
+
+              <div class="error-message" id="errorMessage" role="alert"></div>
+
+              <div class="privacy-note">Your information is only used to process your order.</div>
+            </div>
+          </form>
+
+          <!-- SUCCESS -->
+          <div class="success-message" id="successMessage" role="status">
+            <div class="success-icon">✓</div>
+            <h2>Order received.</h2>
+            <p>We've received your request. We'll prepare your order and call you when it's ready.</p>
+            <div class="order-number-display" id="orderNumberDisplay">Order #—</div>
+            <button type="button" class="submit-button" id="backHomeButton">Back to Birtat</button>
+          </div>
         </div>
 
-        <div class="summary-service">
-
-          <small>
-            SERVICE
-          </small>
-
-          <strong id="summaryService">
-            Print
-          </strong>
-
-        </div>
-
-        <div class="summary-lines">
-
-          <div class="summary-line">
-            <span>Type</span>
-            <strong id="summaryColor">B&W</strong>
+        <!-- SUMMARY: MOVED INTO FORM ON MOBILE -->
+        <aside class="summary-card" id="summaryCard">
+          <div class="summary-title">Order summary</div>
+          <div class="summary-service">
+            <small>SERVICE</small>
+            <strong id="summaryService">Print</strong>
           </div>
-
-          <div class="summary-line">
-            <span>Pages</span>
-            <strong id="summaryPages">—</strong>
+          <div class="summary-lines">
+            <div class="summary-line"><span>Type</span><strong id="summaryColor">B&W</strong></div>
+            <div class="summary-line"><span>Paper</span><strong id="summaryPaper">A4</strong></div>
+            <div class="summary-line"><span>Pages</span><strong id="summaryPages">—</strong></div>
+            <div class="summary-line"><span>Copies</span><strong id="summaryCopies">1</strong></div>
+            <div class="summary-line"><span>Receive</span><strong id="summaryDelivery">Pick up</strong></div>
           </div>
-
-          <div class="summary-line">
-            <span>Copies</span>
-            <strong id="summaryCopies">1</strong>
+          <div class="summary-total">
+            <span>Estimated price</span>
+            <strong id="summaryPrice">—</strong>
           </div>
-
-          <div class="summary-line">
-            <span>Receive</span>
-            <strong id="summaryDelivery">Pick up</strong>
-          </div>
-
-        </div>
-
-        <div class="summary-total">
-
-          <span>
-            Estimated price
-          </span>
-
-          <strong id="summaryPrice">
-            —
-          </strong>
-
-        </div>
-
-        <p class="estimate-note">
-          A4 printing: 10 ETB per B&W page or 15 ETB per color page.
-          The estimate updates automatically when your file is uploaded.
-        </p>
-
-      </aside>
-
+          <p class="estimate-note">A4 printing: 10 ETB per B&W page or 15 ETB per color page. A3 and A5 prices may differ. The final price is confirmed after reviewing your request.</p>
+        </aside>
+      </div>
     </div>
+  </main>
 
-  </div>
+  <!-- No Supabase scripts or configuration are used on this page. -->
 
-</main>
+  <script>
+    (() => {
+      const root = document.getElementById("tourRoot");
+      const helpButton = document.getElementById("helpButton");
+      const welcome = document.getElementById("tourWelcome");
+      const start = document.getElementById("tourStart");
+      const later = document.getElementById("tourLater");
+      const card = document.getElementById("tourCard");
+      const spotlight = document.getElementById("tourSpotlight");
+      const pulse = document.getElementById("tourPulse");
+      const stepLabel = document.getElementById("tourStep");
+      const title = document.getElementById("tourTitle");
+      const text = document.getElementById("tourText");
+      const progress = document.getElementById("tourProgress");
+      const dots = document.getElementById("tourDots");
+      const back = document.getElementById("tourBack");
+      const next = document.getElementById("tourNext");
+      const skip = document.getElementById("tourSkip");
 
-<!-- SUPABASE -->
+      const steps = [
+        { target: ".service-grid", title: "Start with a service", text: "Choose the service you want. Birtat will show the options for that service.", position: "bottom", radius: 14 },
+        { target: "label[for=\"service-print\"]", title: "Choose the right service", text: "Choose Print for a file you want printed, Copy for a physical original, or another service for different assistance.", position: "bottom", radius: 12 },
+        { target: ".file-drop", title: "Add your file", text: "If your service needs a file, upload it here. PDF files can be counted automatically to help estimate printing costs.", position: "right", radius: 14 },
+        { target: "#colorMode", title: "Choose your print type", text: "Choose Black & White or Color, then select the paper size and number of copies.", position: "right", radius: 11 },
+        { target: "#customerName", title: "Add your contact details", text: "Enter your name and phone number carefully. We will call this number when your order is ready.", position: "right", radius: 11 },
+        { target: "#completionCallInfo", title: "We'll call when it's ready", text: "A completion call is part of every order. Make sure the phone number you entered is correct.", position: "top", radius: 12 },
+        { target: ".delivery-options", title: "Choose pickup or delivery", text: "Choose how you want to receive your order. If you choose delivery, provide your block and house number.", position: "top", radius: 12 },
+        { target: "#summaryCard", title: "Review your order", text: "Check the service, options, quantity, delivery method and estimated price before sending.", position: "left", radius: 16 },
+        { target: "#confirmationSection", title: "Finish your order", text: "Confirm that you understand the estimate and press Send Order. Your request will be sent to Birtat.", position: "top", radius: 12 }
+      ];
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+      let current = 0;
+      let active = false;
 
-<!-- BIRTAT TUTORIAL LOGIC -->
-<script>
-(() => {
-  const root = document.getElementById("tourRoot");
-  const helpButton = document.getElementById("helpButton");
-  const welcome = document.getElementById("tourWelcome");
-  const start = document.getElementById("tourStart");
-  const later = document.getElementById("tourLater");
-  const card = document.getElementById("tourCard");
-  const spotlight = document.getElementById("tourSpotlight");
-  const pulse = document.getElementById("tourPulse");
-  const stepLabel = document.getElementById("tourStep");
-  const title = document.getElementById("tourTitle");
-  const text = document.getElementById("tourText");
-  const progress = document.getElementById("tourProgress");
-  const dots = document.getElementById("tourDots");
-  const back = document.getElementById("tourBack");
-  const next = document.getElementById("tourNext");
-  const skip = document.getElementById("tourSkip");
-
-  const steps = [
-    { target: ".service-grid", title: "Start with a service", text: "Start by selecting the service you want. Birtat will show the options that belong to that service.", position: "bottom", radius: 14 },
-    { target: ".service-option label[for=\"service-print\"]", title: "Choose the right option", text: "Select the service you want us to handle. If you are printing a file, choose Print; other services have their own simple options.", position: "bottom", radius: 12 },
-    { target: "#fileInput", fallback: ".file-drop", title: "Add your file", text: "If your service needs a file, upload it here. For PDFs, we can read the page count automatically to help calculate the estimate.", position: "right", radius: 14 },
-    { target: "#colorMode", title: "Choose your print type", text: "Birtat prints on A4 paper. Choose Black & White at 10 ETB per page or Color at 15 ETB per page, then select how many copies you need.", position: "right", radius: 11 },
-    { target: "#customerName", title: "Add your contact details", text: "Enter your name and phone number carefully. We will call this number when your order is ready, so make sure it is correct.", position: "right", radius: 11 },
-    { target: "#completionCallInfo", title: "We'll call when it's ready", text: "A completion call is part of every order. There is no opt-in checkbox; just make sure your phone number is correct.", position: "top", radius: 12 },
-    { target: ".delivery-options", title: "Choose pickup or delivery", text: "Choose how you want to receive your order. If you select delivery, provide the requested location details so we know where to bring it.", position: "top", radius: 12 },
-    { target: ".summary-card", title: "Review before sending", text: "Use the summary to check everything at a glance: service, options, quantity, delivery, and estimated price.", position: "left", radius: 16 },
-    { target: "#confirm", title: "Finish your order", text: "Review your details, confirm the estimate, and send the order. We will receive your request and can begin preparing it.", position: "top", radius: 8 }
-  ];
-
-  let current = 0;
-  let active = false;
-
-  function getTarget(step) {
-    let el = document.querySelector(step.target);
-    if ((!el || el.offsetParent === null) && step.fallback) {
-      el = document.querySelector(step.fallback);
-    }
-    return el;
-  }
-
-  function createDots() {
-    dots.innerHTML = "";
-    steps.forEach((_, index) => {
-      const dot = document.createElement("span");
-      dot.className = "tour-dot";
-      dot.setAttribute("aria-hidden", "true");
-      dot.dataset.index = index;
-      dots.appendChild(dot);
-    });
-  }
-
-  function setSpotlight(el, radius = 12) {
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const pad = window.innerWidth <= 600 ? 6 : 8;
-    const left = Math.max(5, rect.left - pad);
-    const top = Math.max(5, rect.top - pad);
-    const width = Math.min(window.innerWidth - left - 5, rect.width + pad * 2);
-    const height = Math.min(window.innerHeight - top - 5, rect.height + pad * 2);
-
-    spotlight.style.left = `${left}px`;
-    spotlight.style.top = `${top}px`;
-    spotlight.style.width = `${width}px`;
-    spotlight.style.height = `${height}px`;
-    spotlight.style.borderRadius = `${radius}px`;
-
-    pulse.style.left = `${rect.left + rect.width / 2}px`;
-    pulse.style.top = `${rect.top + rect.height / 2}px`;
-    pulse.classList.remove("active");
-    void pulse.offsetWidth;
-    pulse.classList.add("active");
-    spotlight.classList.add("visible");
-  }
-
-  function placeCard(el, preferred) {
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      card.dataset.position = "bottom";
-      card.style.left = "10px";
-      card.style.right = "10px";
-      card.style.top = "auto";
-      card.style.bottom = "max(10px, env(safe-area-inset-bottom))";
-      return;
-    }
-
-    card.style.right = "auto";
-    card.style.bottom = "auto";
-    const rect = el.getBoundingClientRect();
-    const gap = 18;
-    const cardWidth = Math.min(390, window.innerWidth - 32);
-    const cardHeight = Math.min(card.offsetHeight || 240, window.innerHeight - 32);
-    let x = 16;
-    let y = 16;
-    let position = preferred;
-
-    const choices = {
-      bottom: () => ({ x: rect.left + rect.width / 2 - cardWidth / 2, y: rect.bottom + gap }),
-      top: () => ({ x: rect.left + rect.width / 2 - cardWidth / 2, y: rect.top - cardHeight - gap }),
-      right: () => ({ x: rect.right + gap, y: rect.top + rect.height / 2 - cardHeight / 2 }),
-      left: () => ({ x: rect.left - cardWidth - gap, y: rect.top + rect.height / 2 - cardHeight / 2 })
-    };
-
-    const fits = point =>
-      point.x >= 16 &&
-      point.y >= 16 &&
-      point.x + cardWidth <= window.innerWidth - 16 &&
-      point.y + cardHeight <= window.innerHeight - 16;
-
-    let point = choices[position]();
-
-    if (!fits(point)) {
-      const order = ["bottom", "top", "right", "left"];
-      const alternate = order.find(p => fits(choices[p]()));
-      if (alternate) {
-        position = alternate;
-        point = choices[position]();
+      function getTarget(step) {
+        return document.querySelector(step.target);
       }
-    }
 
-    x = Math.max(16, Math.min(point.x, window.innerWidth - cardWidth - 16));
-    y = Math.max(16, Math.min(point.y, window.innerHeight - cardHeight - 16));
+      function createDots() {
+        dots.innerHTML = "";
+        steps.forEach((_, index) => {
+          const dot = document.createElement("span");
+          dot.className = "tour-dot";
+          dot.setAttribute("aria-hidden", "true");
+          dots.appendChild(dot);
+        });
+      }
 
-    card.dataset.position = position;
-    card.style.left = `${x}px`;
-    card.style.top = `${y}px`;
-  }
+      function setSpotlight(el, radius = 12) {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const pad = window.innerWidth <= 600 ? 6 : 8;
+        const left = Math.max(5, rect.left - pad);
+        const top = Math.max(5, rect.top - pad);
+        const width = Math.min(window.innerWidth - left - 5, rect.width + pad * 2);
+        const height = Math.min(window.innerHeight - top - 5, rect.height + pad * 2);
 
-  async function renderStep(index, instant = false) {
-    current = Math.max(0, Math.min(index, steps.length - 1));
-    const step = steps[current];
-    const el = getTarget(step);
+        spotlight.style.left = `${left}px`;
+        spotlight.style.top = `${top}px`;
+        spotlight.style.width = `${width}px`;
+        spotlight.style.height = `${height}px`;
+        spotlight.style.borderRadius = `${radius}px`;
 
-    root.classList.remove("is-welcome");
-    card.classList.remove("visible");
+        pulse.style.left = `${rect.left + rect.width / 2}px`;
+        pulse.style.top = `${rect.top + rect.height / 2}px`;
+        pulse.classList.remove("active");
+        void pulse.offsetWidth;
+        pulse.classList.add("active");
+        spotlight.classList.add("visible");
+      }
 
-    if (el) {
-      const mobileTour = window.matchMedia("(max-width: 600px)").matches;
-      el.scrollIntoView({
-        behavior: instant ? "auto" : "smooth",
-        block: mobileTour ? "start" : "center",
-        inline: "nearest"
+      function placeCard(el, preferred) {
+        if (window.matchMedia("(max-width: 600px)").matches) {
+          card.dataset.position = "bottom";
+          card.style.left = "10px";
+          card.style.right = "10px";
+          card.style.top = "auto";
+          card.style.bottom = "max(10px, env(safe-area-inset-bottom))";
+          return;
+        }
+
+        card.style.right = "auto";
+        card.style.bottom = "auto";
+
+        const rect = el.getBoundingClientRect();
+        const gap = 18;
+        const width = Math.min(390, window.innerWidth - 32);
+        const height = Math.min(card.offsetHeight || 240, window.innerHeight - 32);
+
+        const choices = {
+          bottom: () => ({ x: rect.left + rect.width / 2 - width / 2, y: rect.bottom + gap }),
+          top: () => ({ x: rect.left + rect.width / 2 - width / 2, y: rect.top - height - gap }),
+          right: () => ({ x: rect.right + gap, y: rect.top + rect.height / 2 - height / 2 }),
+          left: () => ({ x: rect.left - width - gap, y: rect.top + rect.height / 2 - height / 2 })
+        };
+
+        const fits = p => p.x >= 16 && p.y >= 16 &&
+          p.x + width <= window.innerWidth - 16 &&
+          p.y + height <= window.innerHeight - 16;
+
+        let position = preferred;
+        let point = choices[position]();
+
+        if (!fits(point)) {
+          const alternate = ["bottom", "top", "right", "left"].find(p => fits(choices[p]()));
+          if (alternate) {
+            position = alternate;
+            point = choices[position]();
+          }
+        }
+
+        card.dataset.position = position;
+        card.style.left = `${Math.max(16, Math.min(point.x, window.innerWidth - width - 16))}px`;
+        card.style.top = `${Math.max(16, Math.min(point.y, window.innerHeight - height - 16))}px`;
+      }
+
+      async function renderStep(index, instant = false) {
+        current = Math.max(0, Math.min(index, steps.length - 1));
+        const step = steps[current];
+        const el = getTarget(step);
+
+        root.classList.remove("is-welcome");
+        card.classList.remove("visible");
+
+        if (el) {
+          el.scrollIntoView({
+            behavior: instant ? "auto" : "smooth",
+            block: window.innerWidth <= 600 ? "start" : "center",
+            inline: "nearest"
+          });
+          await new Promise(resolve => setTimeout(resolve, instant ? 30 : 360));
+        }
+
+        const target = getTarget(step);
+        if (!target) return;
+
+        title.textContent = step.title;
+        text.textContent = step.text;
+        stepLabel.textContent = `Step ${current + 1} of ${steps.length}`;
+        progress.style.width = `${((current + 1) / steps.length) * 100}%`;
+        back.disabled = current === 0;
+        next.textContent = current === steps.length - 1 ? "Finish ✓" : "Next →";
+
+        [...dots.children].forEach((dot, i) => dot.classList.toggle("active", i === current));
+
+        setSpotlight(target, step.radius);
+        placeCard(target, step.position);
+        requestAnimationFrame(() => card.classList.add("visible"));
+      }
+
+      function openTour() {
+        active = true;
+        current = 0;
+        root.classList.add("is-open", "is-welcome");
+        root.setAttribute("aria-hidden", "false");
+        document.body.classList.add("tour-lock");
+        helpButton.setAttribute("aria-expanded", "true");
+        createDots();
+      }
+
+      function closeTour(markComplete = false) {
+        active = false;
+        root.classList.remove("is-open", "is-welcome");
+        root.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("tour-lock");
+        card.classList.remove("visible");
+        spotlight.classList.remove("visible");
+        pulse.classList.remove("active");
+        helpButton.setAttribute("aria-expanded", "false");
+        if (markComplete) {
+          try { localStorage.setItem("birtatTourCompleted", "1"); } catch (_) {}
+        }
+      }
+
+      helpButton.setAttribute("aria-expanded", "false");
+      helpButton.addEventListener("click", openTour);
+      start.addEventListener("click", () => renderStep(0));
+      later.addEventListener("click", () => closeTour(false));
+      skip.addEventListener("click", () => closeTour(true));
+      back.addEventListener("click", () => renderStep(current - 1));
+      next.addEventListener("click", () => {
+        if (current === steps.length - 1) closeTour(true);
+        else renderStep(current + 1);
       });
-      await new Promise(resolve => setTimeout(resolve, instant ? 30 : 360));
-    }
 
-    const finalTarget = getTarget(step);
-    if (!finalTarget) return;
-
-    title.textContent = step.title;
-    text.textContent = step.text;
-    stepLabel.textContent = `Step ${current + 1} of ${steps.length}`;
-    progress.style.width = `${((current + 1) / steps.length) * 100}%`;
-    back.disabled = current === 0;
-    next.textContent = current === steps.length - 1 ? "Finish ✓" : "Next →";
-
-    dots.querySelectorAll(".tour-dot").forEach((dot, i) => {
-      dot.classList.toggle("active", i === current);
-    });
-
-    setSpotlight(finalTarget, step.radius);
-    placeCard(finalTarget, step.position);
-    requestAnimationFrame(() => card.classList.add("visible"));
-  }
-
-  function openTour() {
-    active = true;
-    current = 0;
-    root.classList.add("is-open", "is-welcome");
-    root.setAttribute("aria-hidden", "false");
-    document.body.classList.add("tour-lock");
-    helpButton.setAttribute("aria-expanded", "true");
-    createDots();
-  }
-
-  function startTour() {
-    root.classList.remove("is-welcome");
-    renderStep(0);
-  }
-
-  function closeTour(markComplete = false) {
-    active = false;
-    root.classList.remove("is-open", "is-welcome");
-    root.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("tour-lock");
-    card.classList.remove("visible");
-    spotlight.classList.remove("visible");
-    pulse.classList.remove("active");
-    helpButton.setAttribute("aria-expanded", "false");
-    if (markComplete) localStorage.setItem("birtatTourCompleted", "1");
-  }
-
-  helpButton.setAttribute("aria-expanded", "false");
-  helpButton.addEventListener("click", openTour);
-  start.addEventListener("click", startTour);
-  later.addEventListener("click", () => closeTour(false));
-  skip.addEventListener("click", () => closeTour(true));
-  back.addEventListener("click", () => renderStep(current - 1));
-  next.addEventListener("click", () => {
-    if (current === steps.length - 1) closeTour(true);
-    else renderStep(current + 1);
-  });
-
-  window.addEventListener("resize", () => {
-    if (!active || root.classList.contains("is-welcome")) return;
-    const step = steps[current];
-    const el = getTarget(step);
-    if (el) {
-      setSpotlight(el, step.radius);
-      placeCard(el, step.position);
-    }
-  });
-
-  window.addEventListener("keydown", event => {
-    if (!active) return;
-    if (event.key === "Escape") closeTour(false);
-    if (!root.classList.contains("is-welcome")) {
-      if (event.key === "ArrowRight") next.click();
-      if (event.key === "ArrowLeft") back.click();
-    }
-  });
-
-  // First visit: introduce the guide automatically.
-  if (!localStorage.getItem("birtatTourCompleted")) {
-    setTimeout(openTour, 900);
-  }
-})();
-</script>
-
-<!-- PDF.JS -->
-
-<script type="module">
-
-  /*
-    ==========================================
-    BIRTAT — ORDER LOGIC
-    ==========================================
-  */
-
-  const prices = {
-    bw: 10,
-    color: 15
-  };
-
-
-  /*
-    ==========================================
-    PDF.JS
-    ==========================================
-  */
-
-  const pdfjsLib = await import(
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
-  );
-
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
-
-
-  /*
-    ==========================================
-    ELEMENTS
-    ==========================================
-  */
-
-  const serviceInputs =
-    document.querySelectorAll(
-      'input[name="service"]'
-    );
-
-  const printFields =
-    document.getElementById("printFields");
-
-  const copyFields =
-    document.getElementById("copyFields");
-
-  const generalFields =
-    document.getElementById("generalFields");
-
-  const summaryService =
-    document.getElementById("summaryService");
-
-  const summaryColor =
-    document.getElementById("summaryColor");
-
-  const summaryPages =
-    document.getElementById("summaryPages");
-
-  const summaryCopies =
-    document.getElementById("summaryCopies");
-
-  const summaryDelivery =
-    document.getElementById("summaryDelivery");
-
-  const summaryPrice =
-    document.getElementById("summaryPrice");
-
-  const orderForm =
-    document.getElementById("orderForm");
-
-  const successMessage =
-    document.getElementById("successMessage");
-
-  const errorMessage =
-    document.getElementById("errorMessage");
-  const orderNumberDisplay =
-    document.getElementById("orderNumberDisplay");
-
-  const fileInput =
-    document.getElementById("fileInput");
-
-  const fileName =
-    document.getElementById("fileName");
-
-  const pageCountDisplay =
-    document.getElementById("pageCount");
-
-  const generalFileInput =
-    document.getElementById("generalFileInput");
-
-  const generalFileName =
-    document.getElementById("generalFileName");
-
-  const deliveryInputs =
-    document.querySelectorAll(
-      'input[name="delivery"]'
-    );
-
-  const deliveryFields =
-    document.getElementById("deliveryFields");
-
-  const blockNumberInput =
-    document.getElementById("blockNumber");
-
-  const houseNumberInput =
-    document.getElementById("houseNumber");
-
-  let detectedPages = null;
-
-
-  /*
-    The completion-call checkbox is stored with the order.
-    It does not request browser notification permission.
-  */
-
-
-  /*
-    ==========================================
-    GET SELECTED SERVICE
-    ==========================================
-  */
-
-  function getSelectedService() {
-
-    const selected =
-      document.querySelector(
-        'input[name="service"]:checked'
-      );
-
-    return selected
-      ? selected.value
-      : "Print";
-  }
-
-
-  /*
-    ==========================================
-    GET DELIVERY CHOICE
-    ==========================================
-  */
-
-  function getDeliveryChoice() {
-
-    const selected =
-      document.querySelector(
-        'input[name="delivery"]:checked'
-      );
-
-    return selected
-      ? selected.value
-      : "pickup";
-  }
-
-
-  /*
-    ==========================================
-    UPDATE DELIVERY FIELDS
-    ==========================================
-  */
-
-  function updateDeliveryFields() {
-
-    const deliveryChoice =
-      getDeliveryChoice();
-
-    const isDelivery =
-      deliveryChoice === "delivery";
-
-
-    if (isDelivery) {
-
-      deliveryFields.classList.add("active");
-
-      blockNumberInput.required = true;
-      houseNumberInput.required = true;
-
-    } else {
-
-      deliveryFields.classList.remove("active");
-
-      blockNumberInput.required = false;
-      houseNumberInput.required = false;
-
-      blockNumberInput.value = "";
-      houseNumberInput.value = "";
-    }
-
-
-    summaryDelivery.textContent =
-      isDelivery
-        ? "Delivery"
-        : "Pick up";
-  }
-
-
-  /*
-    ==========================================
-    GET COPY COUNT
-    ==========================================
-  */
-
-  function getCopyCount() {
-
-    let copies =
-      parseInt(
-        document.getElementById("copies").value
-      );
-
-    if (!copies || copies < 1) {
-      copies = 1;
-    }
-
-    return copies;
-  }
-
-
-  /*
-    ==========================================
-    UPDATE SERVICE FIELDS
-    ==========================================
-  */
-
-  function updateServiceFields() {
-
-    const service =
-      getSelectedService();
-
-    printFields.classList.remove("active");
-    copyFields.classList.remove("active");
-    generalFields.classList.remove("active");
-
-    if (service === "Print") {
-
-      printFields.classList.add("active");
-
-    } else if (service === "Copy") {
-
-      copyFields.classList.add("active");
-
-    } else {
-
-      generalFields.classList.add("active");
-    }
-
-    summaryService.textContent =
-      service;
-
-    updateSummary();
-  }
-
-
-  /*
-    ==========================================
-    UPDATE SUMMARY
-    ==========================================
-  */
-
-  function updateSummary() {
-
-    const service =
-      getSelectedService();
-
-
+      window.addEventListener("resize", () => {
+        if (!active || root.classList.contains("is-welcome")) return;
+        const step = steps[current];
+        const el = getTarget(step);
+        if (el) {
+          setSpotlight(el, step.radius);
+          placeCard(el, step.position);
+        }
+      });
+
+      window.addEventListener("keydown", event => {
+        if (!active) return;
+        if (event.key === "Escape") closeTour(false);
+        if (!root.classList.contains("is-welcome")) {
+          if (event.key === "ArrowRight") next.click();
+          if (event.key === "ArrowLeft") back.click();
+        }
+      });
+
+      let completed = false;
+      try { completed = !!localStorage.getItem("birtatTourCompleted"); } catch (_) {}
+      if (!completed) setTimeout(openTour, 900);
+    })();
+  </script>
+
+  <script type="module">
     /*
-      PRINT
+      ==========================================
+      BIRTAT ORDER LOGIC — TELEGRAM ONLY
+      No Supabase database or storage.
+      ==========================================
     */
 
-    if (service === "Print") {
-      const color =
-        document.getElementById(
-          "colorMode"
-        ).value;
+    const TELEGRAM_BOT_TOKEN = "8658293089:AAG7eABiv1hIPA6VIADl0h5Br7jo2dqmfuE";
+    const TELEGRAM_CHAT_ID = "7090048683";
+    const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 
-      const copies =
-        getCopyCount();
+    const prices = { bw: 10, color: 15 };
+    const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
-      summaryColor.textContent =
-        color === "bw"
-          ? "B&W"
-          : "Color";
+    const $ = id => document.getElementById(id);
+    const serviceInputs = document.querySelectorAll('input[name="service"]');
+    const deliveryInputs = document.querySelectorAll('input[name="delivery"]');
 
-      summaryCopies.textContent =
-        copies;
+    const printFields = $("printFields");
+    const copyFields = $("copyFields");
+    const generalFields = $("generalFields");
+    const orderForm = $("orderForm");
+    const successMessage = $("successMessage");
+    const errorMessage = $("errorMessage");
+    const orderNumberDisplay = $("orderNumberDisplay");
+    const fileInput = $("fileInput");
+    const generalFileInput = $("generalFileInput");
+    const deliveryFields = $("deliveryFields");
+    const blockNumberInput = $("blockNumber");
+    const houseNumberInput = $("houseNumber");
 
+    const summaryService = $("summaryService");
+    const summaryColor = $("summaryColor");
+    const summaryPaper = $("summaryPaper");
+    const summaryPages = $("summaryPages");
+    const summaryCopies = $("summaryCopies");
+    const summaryDelivery = $("summaryDelivery");
+    const summaryPrice = $("summaryPrice");
 
-      if (!detectedPages) {
+    let detectedPages = null;
+    let pdfjsLib = null;
+    let pdfLibraryFailed = false;
 
-        summaryPages.textContent =
-          "—";
+    // Load PDF.js without stopping the rest of the form if it fails.
+    try {
+      pdfjsLib = await import(
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
+      );
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+    } catch (error) {
+      pdfLibraryFailed = true;
+      console.warn("PDF page counting is unavailable:", error);
+    }
 
-        summaryPrice.textContent =
-          "—";
+    function getSelectedService() {
+      return document.querySelector('input[name="service"]:checked')?.value || "Print";
+    }
+
+    function getDeliveryChoice() {
+      return document.querySelector('input[name="delivery"]:checked')?.value || "pickup";
+    }
+
+    function getPositiveInteger(id, fallback = 1) {
+      const value = Number.parseInt($(id).value, 10);
+      return Number.isFinite(value) && value >= 1 ? value : fallback;
+    }
+
+    function formatETB(amount) {
+      return `${amount.toLocaleString("en-US")} ETB`;
+    }
+
+    function updateDeliveryFields() {
+      const isDelivery = getDeliveryChoice() === "delivery";
+      deliveryFields.classList.toggle("active", isDelivery);
+      blockNumberInput.required = isDelivery;
+      houseNumberInput.required = isDelivery;
+
+      if (!isDelivery) {
+        blockNumberInput.value = "";
+        houseNumberInput.value = "";
+      }
+
+      summaryDelivery.textContent = isDelivery ? "Delivery" : "Pick up";
+    }
+
+    function updateServiceFields() {
+      const service = getSelectedService();
+
+      printFields.classList.toggle("active", service === "Print");
+      copyFields.classList.toggle("active", service === "Copy");
+      generalFields.classList.toggle("active", service !== "Print" && service !== "Copy");
+
+      // Inactive controls must not block submission with hidden required fields.
+      $("copies").required = service === "Print";
+      $("copyQuantity").required = service === "Copy";
+
+      summaryService.textContent = service;
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const service = getSelectedService();
+
+      if (service === "Print") {
+        const color = $("colorMode").value;
+        const copies = getPositiveInteger("copies");
+        const paper = $("paperSize").value;
+
+        summaryColor.textContent = color === "bw" ? "B&W" : "Color";
+        summaryPaper.textContent = paper;
+        summaryCopies.textContent = copies;
+
+        if (detectedPages === null) {
+          summaryPages.textContent = "—";
+          summaryPrice.textContent = "—";
+          return;
+        }
+
+        // These rates are the existing base rates. Non-A4 prices are confirmed manually.
+        const basePrice = detectedPages * prices[color] * copies;
+        summaryPages.textContent = detectedPages;
+        summaryPrice.textContent = paper === "A4"
+          ? formatETB(basePrice)
+          : `${formatETB(basePrice)}*`;
 
         return;
       }
 
+      if (service === "Copy") {
+        const color = $("copyColor").value;
+        const copies = getPositiveInteger("copyQuantity");
+        const price = prices[color] * copies;
 
-      const pricePerPage =
-        prices[color];
-
-      const total =
-        detectedPages *
-        pricePerPage *
-        copies;
-
-      summaryPages.textContent =
-        detectedPages;
-
-      summaryPrice.textContent =
-        total + " ETB";
-
-      return;
-    }
-
-
-    /*
-      COPY
-    */
-
-    if (service === "Copy") {
-      const color =
-        document.getElementById(
-          "copyColor"
-        ).value;
-
-      let copies =
-        parseInt(
-          document.getElementById(
-            "copyQuantity"
-          ).value
-        );
-
-      if (!copies || copies < 1) {
-        copies = 1;
+        summaryColor.textContent = color === "bw" ? "B&W" : "Color";
+        summaryPaper.textContent = "Original";
+        summaryPages.textContent = "—";
+        summaryCopies.textContent = copies;
+        summaryPrice.textContent = formatETB(price);
+        return;
       }
 
-      const price =
-        prices[color] *
-        copies;
-
-      summaryColor.textContent =
-        color === "bw"
-          ? "B&W"
-          : "Color";
-
-      summaryPages.textContent =
-        "—";
-
-      summaryCopies.textContent =
-        copies;
-
-      summaryPrice.textContent =
-        price + " ETB";
-
-      return;
+      summaryColor.textContent = "—";
+      summaryPaper.textContent = "—";
+      summaryPages.textContent = "—";
+      summaryCopies.textContent = "—";
+      summaryPrice.textContent = "Quote";
     }
 
-
-    /*
-      OTHER SERVICES
-    */
-
-    
-
-    summaryColor.textContent =
-      "—";
-
-    summaryPages.textContent =
-      "—";
-
-    summaryCopies.textContent =
-      "—";
-
-    summaryPrice.textContent =
-      "Quote";
-  }
-
-
-  /*
-    ==========================================
-    COUNT PDF PAGES
-    ==========================================
-  */
-
-  async function countPdfPages(file) {
-
-    try {
-
+    async function countPdfPages(file) {
       detectedPages = null;
 
-      pageCountDisplay.textContent =
-        "Counting pages...";
+      if (!pdfjsLib) {
+        $("pageCount").textContent = "PDF page counting is unavailable; the file can still be sent.";
+        updateSummary();
+        return;
+      }
 
-      summaryPages.textContent =
-        "…";
-
-      summaryPrice.textContent =
-        "Calculating…";
-
-
-      const arrayBuffer =
-        await file.arrayBuffer();
-
-      const pdf =
-        await pdfjsLib.getDocument({
-          data: arrayBuffer
-        }).promise;
-
-      detectedPages =
-        pdf.numPages;
-
-      pageCountDisplay.textContent =
-        `${detectedPages} ${
-          detectedPages === 1
-            ? "page"
-            : "pages"
-        } detected`;
-
+      $("pageCount").textContent = "Counting pages…";
       updateSummary();
 
-    } catch (error) {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        detectedPages = pdf.numPages;
 
-      console.error(
-        "PDF page counting error:",
-        error
-      );
+        $("pageCount").textContent =
+          `${detectedPages} ${detectedPages === 1 ? "page" : "pages"} detected`;
 
-      detectedPages =
-        null;
-
-      pageCountDisplay.textContent =
-        "Could not read this PDF.";
-
-      summaryPages.textContent =
-        "—";
-
-      summaryPrice.textContent =
-        "Quote";
+        updateSummary();
+      } catch (error) {
+        console.error("PDF page counting error:", error);
+        detectedPages = null;
+        $("pageCount").textContent = "Could not read this PDF. The file can still be sent.";
+        updateSummary();
+      }
     }
-  }
 
-
-  /*
-    ==========================================
-    PRINT FILE SELECTION
-    ==========================================
-  */
-
-  fileInput.addEventListener(
-    "change",
-    async function () {
-
+    fileInput.addEventListener("change", async () => {
       detectedPages = null;
 
-      if (!this.files.length) {
-
-        fileName.textContent =
-          "No file selected";
-
-        pageCountDisplay.textContent =
-          "Upload a PDF to automatically count its pages";
-
+      if (!fileInput.files.length) {
+        $("fileName").textContent = "No file selected";
+        $("pageCount").textContent = "Upload a PDF to automatically count its pages";
         updateSummary();
-
         return;
       }
 
-      const file =
-        this.files[0];
+      const file = fileInput.files[0];
+      $("fileName").textContent = file.name;
 
-      fileName.textContent =
-        file.name;
+      const extension = file.name.split(".").pop().toLowerCase();
 
-      const fileExtension =
-        file.name
-          .split(".")
-          .pop()
-          .toLowerCase();
-
-
-      /*
-        PDF
-      */
-
-      if (
-        fileExtension === "pdf" ||
-        file.type === "application/pdf"
-      ) {
-
+      if (extension === "pdf" || file.type === "application/pdf") {
         await countPdfPages(file);
-
         return;
       }
 
-
-      /*
-        IMAGE
-      */
-
-      if (
-        fileExtension === "jpg" ||
-        fileExtension === "jpeg" ||
-        fileExtension === "png"
-      ) {
-
-        detectedPages =
-          1;
-
-        pageCountDisplay.textContent =
-          "1 page detected";
-
+      if (["jpg", "jpeg", "png"].includes(extension)) {
+        detectedPages = 1;
+        $("pageCount").textContent = "1 image selected";
         updateSummary();
-
         return;
       }
 
+      $("pageCount").textContent = "Page count unavailable for this file type";
+      updateSummary();
+    });
 
-      /*
-        OTHER FILE TYPES
-      */
+    generalFileInput.addEventListener("change", () => {
+      $("generalFileName").textContent =
+        generalFileInput.files.length ? generalFileInput.files[0].name : "No file selected";
+    });
 
-      detectedPages =
-        null;
+    serviceInputs.forEach(input => input.addEventListener("change", updateServiceFields));
+    deliveryInputs.forEach(input => input.addEventListener("change", updateDeliveryFields));
 
-      pageCountDisplay.textContent =
-        "Page count unavailable for this file type";
+    ["colorMode", "paperSize", "copies", "copyColor", "copyQuantity"].forEach(id => {
+      $(id).addEventListener("input", updateSummary);
+      $(id).addEventListener("change", updateSummary);
+    });
 
-      summaryPages.textContent =
-        "—";
-
-      summaryPrice.textContent =
-        "Quote";
+    // Support links such as order.html?service=design.
+    const requestedService = new URLSearchParams(window.location.search).get("service");
+    if (requestedService) {
+      const matchingInput = [...serviceInputs].find(input =>
+        input.value.toLowerCase().startsWith(requestedService.toLowerCase())
+      );
+      if (matchingInput) matchingInput.checked = true;
     }
-  );
 
+    function createOrderNumber() {
+      const timestamp = Date.now().toString().slice(-7);
+      const random = Math.floor(100 + Math.random() * 900);
+      return `BT-${timestamp}${random}`;
+    }
 
-  /*
-    ==========================================
-    GENERAL FILE SELECTION
-    ==========================================
-  */
+    function selectedFileForService(service) {
+      if (service === "Print") return fileInput.files[0] || null;
+      if (service === "Copy") return null;
+      return generalFileInput.files[0] || null;
+    }
 
-  generalFileInput.addEventListener(
-    "change",
-    function () {
+    function buildOrderMessage(order) {
+      const lines = [
+        "🧾 NEW BIRTAT ORDER",
+        "",
+        `Order: ${order.orderNumber}`,
+        `Service: ${order.service}`,
+        "",
+        "CUSTOMER",
+        `Name: ${order.customerName}`,
+        `Phone: ${order.phone}`,
+        "",
+        "ORDER DETAILS",
+        `File: ${order.fileName || "No file attached"}`,
+        `Print type: ${order.color || "N/A"}`,
+        `Paper size: ${order.paper || "N/A"}`,
+        `Pages: ${order.pages ?? "N/A"}`,
+        `Copies: ${order.copies ?? "N/A"}`,
+        `Estimated price: ${order.price || "Quote required"}`,
+        `Delivery method: ${order.deliveryRequested ? "Delivery" : "Pickup"}`,
+        `Block: ${order.blockNumber || "N/A"}`,
+        `House: ${order.houseNumber || "N/A"}`,
+        "",
+        `Service details: ${order.requestDetails || "None provided"}`,
+        `Additional notes: ${order.notes || "None"}`,
+        "",
+        "📞 Call the customer when the order is ready."
+      ];
 
-      if (this.files.length > 0) {
+      return lines.join("\n");
+    }
 
-        generalFileName.textContent =
-          this.files[0].name;
+    async function telegramRequest(method, body, isFormData = false) {
+      const response = await fetch(`${TELEGRAM_API}/${method}`, {
+        method: "POST",
+        headers: isFormData ? undefined : { "Content-Type": "application/json" },
+        body: isFormData ? body : JSON.stringify(body)
+      });
 
-      } else {
-
-        generalFileName.textContent =
-          "No file selected";
+      let result;
+      try {
+        result = await response.json();
+      } catch (_) {
+        throw new Error("Telegram returned an unreadable response.");
       }
 
-    }
-  );
+      if (!response.ok || !result.ok) {
+        throw new Error(result.description || `Telegram request failed (${response.status}).`);
+      }
 
-
-  /*
-    ==========================================
-    SERVICE EVENTS
-    ==========================================
-  */
-
-  serviceInputs.forEach(
-    input => {
-
-      input.addEventListener(
-        "change",
-        updateServiceFields
-      );
-
-    }
-  );
-
-
-  /*
-    ==========================================
-    DELIVERY EVENTS
-    ==========================================
-  */
-
-  deliveryInputs.forEach(
-    input => {
-
-      input.addEventListener(
-        "change",
-        updateDeliveryFields
-      );
-
-    }
-  );
-
-
-  document
-    .getElementById("colorMode")
-    .addEventListener(
-      "change",
-      updateSummary
-    );
-
-
-  document
-    .getElementById("copies")
-    .addEventListener(
-      "input",
-      updateSummary
-    );
-
-
-  document
-    .getElementById("copyColor")
-    .addEventListener(
-      "change",
-      updateSummary
-    );
-
-
-  document
-    .getElementById("copyQuantity")
-    .addEventListener(
-      "input",
-      updateSummary
-    );
-
-
-  /*
-    ==========================================
-    READ SERVICE FROM URL
-    ==========================================
-  */
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const requestedService =
-    params.get("service");
-
-  if (requestedService) {
-
-    const matchingInput =
-      Array.from(
-        serviceInputs
-      ).find(
-        input =>
-          input.value
-            .toLowerCase()
-            .startsWith(
-              requestedService.toLowerCase()
-            )
-      );
-
-    if (matchingInput) {
-      matchingInput.checked = true;
-    }
-  }
-
-
-  /*
-    ==========================================
-    CREATE ORDER NUMBER
-    ==========================================
-  */
-
-  function createOrderNumber() {
-
-    const timestamp =
-      Date.now()
-        .toString()
-        .slice(-6);
-
-    return "KP-" + timestamp;
-  }
-
-
-  /*
-    ==========================================
-    UPLOAD FILE TO SUPABASE STORAGE
-    ==========================================
-  */
-
-  async function uploadOrderFile(
-    file,
-    orderNumber
-  ) {
-
-    if (!file) {
-      return null;
+      return result;
     }
 
+    async function sendOrderToTelegram(order, file) {
+      if (!TELEGRAM_BOT_TOKEN ||
+          TELEGRAM_BOT_TOKEN === "PASTE_YOUR_NEW_BOT_TOKEN_HERE") {
+        throw new Error("Telegram is not configured yet. Add your new bot token to the HTML.");
+      }
 
-    /*
-      Make the filename safe.
-    */
+      // Send the attachment first, if one exists.
+      if (file) {
+        const formData = new FormData();
+        formData.append("chat_id", TELEGRAM_CHAT_ID);
+        formData.append("document", file, file.name);
+        formData.append("caption", `📎 File for Birtat order ${order.orderNumber}`);
 
-    const safeFileName =
-      file.name.replace(
-        /[^a-zA-Z0-9._-]/g,
-        "_"
-      );
+        await telegramRequest("sendDocument", formData, true);
+      }
 
-
-    /*
-      Each order gets its own folder.
-    */
-
-    const filePath =
-      `orders/${orderNumber}/${safeFileName}`;
-
-
-    console.log(
-      "Uploading file:",
-      filePath
-    );
-
-
-    const {
-      error: uploadError
-    } =
-      await supabaseClient
-        .storage
-        .from("order-files")
-        .upload(
-          filePath,
-          file,
-          {
-            cacheControl: "3600",
-            upsert: false
-          }
-        );
-
-
-    if (uploadError) {
-
-      console.error(
-        "Storage upload error:",
-        uploadError
-      );
-
-      throw uploadError;
+      // Send the complete order as a separate message to avoid Telegram caption limits.
+      await telegramRequest("sendMessage", {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: buildOrderMessage(order)
+      });
     }
 
-
-    console.log(
-      "File uploaded successfully:",
-      filePath
-    );
-
-
-    return filePath;
-  }
-
-
-  /*
-    ==========================================
-    SUBMIT ORDER
-    ==========================================
-  */
-
-  orderForm.addEventListener(
-    "submit",
-    async function (event) {
-
+    orderForm.addEventListener("submit", async event => {
       event.preventDefault();
+      errorMessage.style.display = "none";
+      errorMessage.textContent = "";
 
+      if (!orderForm.reportValidity()) return;
 
-      errorMessage.style.display =
-        "none";
-
-
-      const submitButton =
-        orderForm.querySelector(
-          ".submit-button"
-        );
-
-
-      submitButton.disabled =
-        true;
-
-      submitButton.textContent =
-        "Uploading...";
-
+      const submitButton = $("submitButton");
+      const originalButtonText = submitButton.textContent;
+      submitButton.disabled = true;
 
       try {
+        const service = getSelectedService();
+        const customerName = $("customerName").value.trim();
+        const phone = $("customerPhone").value.trim();
+        const deliveryRequested = getDeliveryChoice() === "delivery";
+        const blockNumber = deliveryRequested ? blockNumberInput.value.trim() : "";
+        const houseNumber = deliveryRequested ? houseNumberInput.value.trim() : "";
 
-        /*
-          ====================================
-          CUSTOMER INFORMATION
-          ====================================
-        */
-
-        const customerName =
-          document
-            .getElementById("customerName")
-            .value
-            .trim();
-
-        const phone =
-          document
-            .getElementById("customerPhone")
-            .value
-            .trim();
-
-        const service =
-          getSelectedService();
-
-
-        /*
-          ====================================
-          DELIVERY INFORMATION
-          ====================================
-        */
-
-        const deliveryRequested =
-          getDeliveryChoice() === "delivery";
-
-        const blockNumber =
-          deliveryRequested
-            ? blockNumberInput.value.trim()
-            : null;
-
-        const houseNumber =
-          deliveryRequested
-            ? houseNumberInput.value.trim()
-            : null;
-
-
-        /*
-          Validate delivery fields.
-        */
-
-        if (
-          deliveryRequested &&
-          (!blockNumber || !houseNumber)
-        ) {
-
-          throw new Error(
-            "Please enter your block and house number for delivery."
-          );
+        if (deliveryRequested && (!blockNumber || !houseNumber)) {
+          throw new Error("Please enter your block and house number for delivery.");
         }
 
+        const file = selectedFileForService(service);
 
-        /*
-          ====================================
-          GET FILE
-          ====================================
-        */
+        if (service === "Print" && !file) {
+          throw new Error("Please upload the file you want to print.");
+        }
 
-        let selectedFile = null;
+        if (file && file.size > MAX_FILE_SIZE) {
+          throw new Error("This file is larger than 50 MB. Please choose a smaller file.");
+        }
 
+        if (service === "Copy" && !$("copyQuantity").value) {
+          throw new Error("Please enter the number of copies.");
+        }
+
+        const orderNumber = createOrderNumber();
+        let color = null;
+        let paper = null;
+        let pages = null;
+        let copies = null;
+        let price = "Quote required";
 
         if (service === "Print") {
+          color = $("colorMode").value === "bw" ? "Black & White" : "Color";
+          paper = $("paperSize").value;
+          pages = detectedPages;
+          copies = getPositiveInteger("copies");
 
-          selectedFile =
-            document
-              .getElementById("fileInput")
-              .files[0] || null;
-
-        } else {
-
-          selectedFile =
-            document
-              .getElementById("generalFileInput")
-              .files[0] || null;
+          if (detectedPages !== null) {
+            const amount = detectedPages * prices[$("colorMode").value] * copies;
+            price = paper === "A4" ? formatETB(amount) : `${formatETB(amount)} base estimate`;
+          } else {
+            price = "Quote required — page count unavailable";
+          }
+        } else if (service === "Copy") {
+          color = $("copyColor").value === "bw" ? "Black & White" : "Color";
+          copies = getPositiveInteger("copyQuantity");
+          price = formatETB(prices[$("copyColor").value] * copies);
         }
 
+        const order = {
+          orderNumber,
+          service,
+          customerName,
+          phone,
+          fileName: file ? file.name : "",
+          color,
+          paper,
+          pages,
+          copies,
+          price,
+          deliveryRequested,
+          blockNumber,
+          houseNumber,
+          requestDetails: $("requestDetails").value.trim(),
+          notes: $("notes").value.trim()
+        };
 
-        const selectedFileName =
-          selectedFile
-            ? selectedFile.name
-            : null;
+        submitButton.textContent = file ? "Sending file to Telegram…" : "Sending order…";
 
+        await sendOrderToTelegram(order, file);
 
-        /*
-          ====================================
-          CREATE ORDER NUMBER
-          ====================================
-        */
+        orderNumberDisplay.textContent = `Order #${orderNumber}`;
+        orderForm.style.display = "none";
+        $("summaryCard").style.display = "none";
+        successMessage.style.display = "block";
 
-        const orderNumber =
-          createOrderNumber();
-
-
-        /*
-          ====================================
-          UPLOAD FILE
-          ====================================
-        */
-
-        submitButton.textContent =
-          "Uploading file...";
-
-
-        const filePath =
-          await uploadOrderFile(
-            selectedFile,
-            orderNumber
-          );
-
-
-        /*
-          ====================================
-          CREATE DATABASE ORDER
-          ====================================
-        */
-
-        submitButton.textContent =
-          "Creating order...";
-
-
-        const {
-          error: orderError
-        } =
-          await supabaseClient
-            .from("orders")
-            .insert([
-              {
-                order_number:
-                  orderNumber,
-
-                customer_name:
-                  customerName,
-
-                phone:
-                  phone,
-
-                service:
-                  service,
-
-                status:
-                  "received",
-
-                file_name:
-                  selectedFileName,
-
-                file_path:
-                  filePath,
-
-                notify_customer: true,
-
-                delivery_requested:
-                  deliveryRequested,
-
-                block_number:
-                  blockNumber,
-
-                house_number:
-                  houseNumber
-              }
-            ]);
-
-
-        if (orderError) {
-
-          console.error(
-            "Supabase order error:",
-            orderError
-          );
-
-          throw orderError;
-        }
-
-
-        /*
-          ====================================
-          SUCCESS
-          ====================================
-        */
-
-        console.log(
-          "Birtat order created:",
-          orderNumber
-        );
-
-        console.log(
-          "Stored file path:",
-          filePath
-        );
-
-        console.log(
-          "Delivery requested:",
-          deliveryRequested
-        );
-
-        console.log(
-          "Block:",
-          blockNumber
-        );
-
-        console.log(
-          "House:",
-          houseNumber
-        );
-
-
-        orderNumberDisplay.textContent =
-          "Order #" + orderNumber;
-
-
-        orderForm.style.display =
-          "none";
-
-
-        successMessage.style.display =
-          "block";
-
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
+        console.error("Birtat order submission error:", error);
 
-        console.error(
-          "Birtat order error:",
-          error
-        );
+        let message = error.message || "Something went wrong while sending your order. Please try again.";
 
-
-        /*
-          Show the real error in the
-          browser console, but keep the
-          customer-facing message simple.
-        */
-
-        if (
-          error.message ===
-          "Please enter your block and house number for delivery."
-        ) {
-
-          errorMessage.textContent =
-            error.message;
-
-        } else {
-
-          errorMessage.textContent =
-            "Something went wrong while sending your order. Please try again.";
+        if (error instanceof TypeError) {
+          message = "We couldn't connect to Telegram from this browser. Please try again. If this keeps happening, the website needs a small serverless endpoint to send orders securely.";
         }
 
-
-        errorMessage.style.display =
-          "block";
-
-
-        submitButton.disabled =
-          false;
-
-        submitButton.textContent =
-          "Send Order →";
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
       }
+    });
 
-    }
-  );
+    $("backHomeButton").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
 
+    /*
+      RESPONSIVE SUMMARY:
+      Desktop: right-hand sidebar.
+      Mobile: after all order fields and immediately before the confirmation checkbox and Send Order button.
+    */
+    const orderLayout = document.querySelector(".order-layout");
+    const formCard = document.querySelector(".form-card");
+    const summaryCard = $("summaryCard");
+    const confirmationSection = $("confirmationSection");
+    const mobileSummaryQuery = window.matchMedia("(max-width: 800px)");
 
-  /*
-    ==========================================
-    MOBILE SUMMARY POSITION
-    On mobile, place the summary after all order
-    fields and immediately before confirmation
-    and the Send Order button. On desktop, keep
-    it in the right-hand sidebar.
-    ==========================================
-  */
-
-  const orderLayout = document.querySelector(".order-layout");
-  const formCard = document.querySelector(".form-card");
-  const summaryCard = document.querySelector(".summary-card");
-  const confirmCheckbox = document.getElementById("confirm");
-  const confirmSection = confirmCheckbox
-    ? confirmCheckbox.closest(".form-section")
-    : null;
-  const mobileSummaryQuery = window.matchMedia("(max-width: 800px)");
-
-  function positionOrderSummary() {
-    if (!summaryCard || !orderLayout || !formCard || !confirmSection) return;
-
-    if (mobileSummaryQuery.matches) {
-      if (summaryCard.parentElement !== orderForm) {
-        orderForm.insertBefore(summaryCard, confirmSection);
+    function positionOrderSummary() {
+      if (mobileSummaryQuery.matches) {
+        orderForm.insertBefore(summaryCard, confirmationSection);
+        summaryCard.classList.add("mobile-summary");
       } else {
-        orderForm.insertBefore(summaryCard, confirmSection);
-      }
-      summaryCard.classList.add("mobile-summary");
-    } else {
-      if (summaryCard.parentElement !== orderLayout) {
         orderLayout.insertBefore(summaryCard, formCard.nextSibling);
+        summaryCard.classList.remove("mobile-summary");
       }
-      summaryCard.classList.remove("mobile-summary");
     }
-  }
 
-  positionOrderSummary();
-  if (mobileSummaryQuery.addEventListener) {
-    mobileSummaryQuery.addEventListener("change", positionOrderSummary);
-  } else {
-    mobileSummaryQuery.addListener(positionOrderSummary);
-  }
+    positionOrderSummary();
 
-  /*
-    ==========================================
-    INITIALIZE
-    ==========================================
-  */
+    if (mobileSummaryQuery.addEventListener) {
+      mobileSummaryQuery.addEventListener("change", positionOrderSummary);
+    } else {
+      mobileSummaryQuery.addListener(positionOrderSummary);
+    }
 
-  updateServiceFields();
-  updateDeliveryFields();
-
-</script>
-
+    updateServiceFields();
+    updateDeliveryFields();
+    updateSummary();
+  </script>
 </body>
 </html>
