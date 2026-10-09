@@ -556,25 +556,27 @@
       .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
+    /* MOBILE TUTORIAL PLACEMENT */
     @media (max-width: 600px) {
       .tour-card {
         position: fixed;
-        left: 10px !important;
-        right: 10px;
+        left: 12px !important;
+        right: 12px !important;
         top: auto !important;
-        bottom: max(10px, env(safe-area-inset-bottom));
-        width: auto;
-        max-height: min(42dvh, 330px);
+        bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+        width: auto !important;
+        max-height: min(45dvh, 360px);
         overflow-y: auto;
         overscroll-behavior: contain;
-        padding: 17px;
+        padding: 16px;
         border-radius: 18px;
         box-shadow: 0 18px 55px rgba(0,0,0,.34);
+        box-sizing: border-box;
       }
 
       .tour-card[data-position]::after { display: none; }
       .tour-card h2 { font-size: 1.18rem; }
-      .tour-card p { font-size: .84rem; line-height: 1.5; }
+      .tour-card p { font-size: .84rem; line-height: 1.5; overflow-wrap: anywhere; }
       .tour-kicker { margin-bottom: 8px; }
       .tour-progress { margin-top: 12px; }
       .tour-actions { margin-top: 12px; }
@@ -603,8 +605,26 @@
       .field-grid, .option-row, .delivery-options { grid-template-columns: minmax(0, 1fr); }
       .field.full, .delivery-note { grid-column: auto; }
       .help-button { top: 76px; right: 88px; width: 38px; height: 38px; font-size: .88rem; }
-      .tour-card { width: min(390px, calc(100vw - 24px)); padding: 18px; border-radius: 17px; }
-      .tour-welcome { padding: 24px; border-radius: 20px; }
+
+      /* Keep the tutorial aligned with the mobile viewport. */
+      .tour-card {
+        left: 12px !important;
+        right: 12px !important;
+        top: auto !important;
+        bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+        width: auto !important;
+        padding: 16px;
+        border-radius: 17px;
+      }
+
+      .tour-welcome {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        padding: 24px;
+        border-radius: 20px;
+        box-sizing: border-box;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -939,6 +959,7 @@
 
       function setSpotlight(el, radius = 12) {
         if (!el) return;
+
         const rect = el.getBoundingClientRect();
         const pad = window.innerWidth <= 600 ? 6 : 8;
         const left = Math.max(5, rect.left - pad);
@@ -963,15 +984,24 @@
       function placeCard(el, preferred) {
         if (window.matchMedia("(max-width: 600px)").matches) {
           card.dataset.position = "bottom";
-          card.style.left = "10px";
-          card.style.right = "10px";
+          card.style.left = "12px";
+          card.style.right = "12px";
+          card.style.width = "auto";
           card.style.top = "auto";
-          card.style.bottom = "max(10px, env(safe-area-inset-bottom))";
+          card.style.bottom = "calc(12px + env(safe-area-inset-bottom))";
+
+          // Keep the tutorial within the mobile viewport.
+          card.style.maxHeight = `${Math.max(
+            180,
+            Math.min(window.innerHeight * 0.45, 360)
+          )}px`;
+
           return;
         }
 
         card.style.right = "auto";
         card.style.bottom = "auto";
+        card.style.width = "";
 
         const rect = el.getBoundingClientRect();
         const gap = 18;
@@ -1019,6 +1049,7 @@
             block: window.innerWidth <= 600 ? "start" : "center",
             inline: "nearest"
           });
+
           await new Promise(resolve => setTimeout(resolve, instant ? 30 : 360));
         }
 
@@ -1036,6 +1067,7 @@
 
         setSpotlight(target, step.radius);
         placeCard(target, step.position);
+
         requestAnimationFrame(() => card.classList.add("visible"));
       }
 
@@ -1058,6 +1090,7 @@
         spotlight.classList.remove("visible");
         pulse.classList.remove("active");
         helpButton.setAttribute("aria-expanded", "false");
+
         if (markComplete) {
           try { localStorage.setItem("birtatTourCompleted", "1"); } catch (_) {}
         }
@@ -1069,6 +1102,7 @@
       later.addEventListener("click", () => closeTour(false));
       skip.addEventListener("click", () => closeTour(true));
       back.addEventListener("click", () => renderStep(current - 1));
+
       next.addEventListener("click", () => {
         if (current === steps.length - 1) closeTour(true);
         else renderStep(current + 1);
@@ -1076,8 +1110,10 @@
 
       window.addEventListener("resize", () => {
         if (!active || root.classList.contains("is-welcome")) return;
+
         const step = steps[current];
         const el = getTarget(step);
+
         if (el) {
           setSpotlight(el, step.radius);
           placeCard(el, step.position);
@@ -1087,6 +1123,7 @@
       window.addEventListener("keydown", event => {
         if (!active) return;
         if (event.key === "Escape") closeTour(false);
+
         if (!root.classList.contains("is-welcome")) {
           if (event.key === "ArrowRight") next.click();
           if (event.key === "ArrowLeft") back.click();
@@ -1095,6 +1132,7 @@
 
       let completed = false;
       try { completed = !!localStorage.getItem("birtatTourCompleted"); } catch (_) {}
+
       if (!completed) setTimeout(openTour, 900);
     })();
   </script>
@@ -1148,6 +1186,7 @@
       pdfjsLib = await import(
         "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
       );
+
       pdfjsLib.GlobalWorkerOptions.workerSrc =
         "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
     } catch (error) {
@@ -1174,6 +1213,7 @@
 
     function updateDeliveryFields() {
       const isDelivery = getDeliveryChoice() === "delivery";
+
       deliveryFields.classList.toggle("active", isDelivery);
       blockNumberInput.required = isDelivery;
       houseNumberInput.required = isDelivery;
@@ -1221,6 +1261,7 @@
 
         // These rates are the existing base rates. Non-A4 prices are confirmed manually.
         const basePrice = detectedPages * prices[color] * copies;
+
         summaryPages.textContent = detectedPages;
         summaryPrice.textContent = paper === "A4"
           ? formatETB(basePrice)
@@ -1324,10 +1365,12 @@
 
     // Support links such as order.html?service=design.
     const requestedService = new URLSearchParams(window.location.search).get("service");
+
     if (requestedService) {
       const matchingInput = [...serviceInputs].find(input =>
         input.value.toLowerCase().startsWith(requestedService.toLowerCase())
       );
+
       if (matchingInput) matchingInput.checked = true;
     }
 
@@ -1382,6 +1425,7 @@
       });
 
       let result;
+
       try {
         result = await response.json();
       } catch (_) {
